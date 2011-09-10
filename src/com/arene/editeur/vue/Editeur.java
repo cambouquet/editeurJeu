@@ -19,7 +19,7 @@ public class Editeur extends JFrame
 {
 	// général
 	String cheminRacine = null;
-	
+
 	// Menu
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
@@ -28,7 +28,7 @@ public class Editeur extends JFrame
 
 	private JMenu menuConfig = new JMenu("Configurer");
 	private JMenuItem menuEditSprites = new JMenuItem("Sprites...");
-	
+
 	/**
 	 * Constructeur basique d'un éditeur : créer une fenêtre et ajoute un mennu.
 	 */
@@ -37,7 +37,7 @@ public class Editeur extends JFrame
 		initFenetre();
 		initMenu();
 	}
-	
+
 	/**
 	 * Initialise les paramètres de la fenêtre.
 	 */
@@ -49,7 +49,7 @@ public class Editeur extends JFrame
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	/**
 	 * Initialise le menu et ses actions.
 	 */
@@ -59,26 +59,24 @@ public class Editeur extends JFrame
 		menuQuit.addActionListener(new ActionListener()
 		{
 			@Override
-            public void actionPerformed(ActionEvent arg0)
-            {
-	            System.exit(0);
-            }
+			public void actionPerformed(ActionEvent arg0)
+			{
+				System.exit(0);
+			}
 		});
 		menuQuit.setMnemonic('Q');
 		menuQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
-				KeyEvent.CTRL_MASK));
+		        KeyEvent.CTRL_MASK));
 		menuNew.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-//				cheminRacine = JOptionPane.showInputDialog(null, "Chemin du projet", "Configuration du nouveau jeu", JOptionPane.QUESTION_MESSAGE);
-				String[] titles =
-				{"Nom du projet", "Chemin absolu du projet"};
-				int[] sizes = {8, 30};
-				
+				String[] titles = {"Nom du projet", "Chemin absolu du projet"};
+
 				InputDialog dialogParam =
-					new InputDialog(null, "Création d'un nouveau jeu", true, titles);
+				        new InputDialog(null, "Création d'un nouveau jeu",
+				                true, titles);
 				dialogParam.setTextOkButton("Créer");
 				dialogParam.setTextIntro("Configuration du nouveau jeu");
 				dialogParam.setFieldSize(25);
@@ -88,41 +86,51 @@ public class Editeur extends JFrame
 
 				if (validated)
 				{
-					
+					JOptionPane.showMessageDialog(null,
+					        "Bientôt disponible :D", "En construction...",
+					        JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
-		
+
 		menuNew.setMnemonic('N');
 		menuNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-				KeyEvent.CTRL_MASK));
-		
+		        KeyEvent.CTRL_MASK));
+
 		menuFichier.add(menuNew);
 		menuFichier.add(menuQuit);
 		menuFichier.setMnemonic('F');
-		
+
 		// Menu Configurer
 		menuEditSprites.addActionListener(new ActionListener()
 		{
 			@Override
-            public void actionPerformed(ActionEvent arg0)
-            {
-	            if (cheminRacine == null)
-	            {
-	            	JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir ou créer un nouveau jeu", "Pas de jeu en cours", JOptionPane.ERROR_MESSAGE);
-	            } else
-	            {
-	            	JOptionPane.showMessageDialog(null, "Bientôt disponible :D", "En construction...", JOptionPane.INFORMATION_MESSAGE);
-	            }
-            }
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if (cheminRacine == null)
+				{
+					JOptionPane
+					        .showMessageDialog(
+					                null,
+					                "Vous devez d'abord ouvrir ou créer un nouveau jeu",
+					                "Pas de jeu en cours",
+					                JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null,
+					        "Bientôt disponible :D", "En construction...",
+					        JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 		});
 		menuEditSprites.setMnemonic('S');
 		menuConfig.add(menuEditSprites);
-		
+
 		menuBar.add(menuFichier);
 		menuBar.add(menuConfig);
-		
+
 		this.setJMenuBar(menuBar);
-		
+
 	}
 }
