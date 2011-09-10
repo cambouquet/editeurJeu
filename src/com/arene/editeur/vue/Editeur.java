@@ -73,25 +73,43 @@ public class Editeur extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String[] titles = {"Nom du projet", "Chemin absolu du projet"};
-
-				InputDialog dialogParam =
-				        new InputDialog(null, "Création d'un nouveau jeu",
-				                true, titles);
-				dialogParam.setTextOkButton("Créer");
-				dialogParam.setTextIntro("Configuration du nouveau jeu");
-				dialogParam.setFieldSize(25);
-
-				String[] results = new String[titles.length];
-				boolean validated = dialogParam.showDialog(results);
-
-				if (validated)
+//				String[] titles = {"Nom du projet", "Chemin absolu du projet"};
+//
+//				InputDialog dialogParam =
+//				        new InputDialog(null, "Création d'un nouveau jeu",
+//				                true, titles);
+//				dialogParam.setTextOkButton("Créer");
+//				dialogParam.setTextIntro("Configuration du nouveau jeu");
+//				dialogParam.setFieldSize(25);
+//
+//				String[] results = new String[titles.length];
+//				boolean validated = dialogParam.showDialog(results);
+//
+//				if (validated)
+//				{
+//					configProjet = new ConfigProjet(results[0], "");
+//					Editeur.this.setTitle("Édition du jeu " + results[0]);
+//					JOptionPane.showMessageDialog(null,
+//							"Projet " + configProjet.getNom()+" configuré.\nLa suite bientôt disponible :D", "En construction...",
+//					        JOptionPane.INFORMATION_MESSAGE);
+//				}
+				
+				String nomProjet = JOptionPane.showInputDialog(null, "Nom du projet", "Configuration du nouveau jeu", JOptionPane.QUESTION_MESSAGE);
+				if (!nomProjet.isEmpty())
 				{
-					configProjet = new ConfigProjet(results[0], results[1]);
-					Editeur.this.setTitle("Édition du jeu " + results[0]);
+					Editeur.this.setTitle("Édition du jeu " + nomProjet);
+					configProjet = new ConfigProjet(nomProjet);
 					JOptionPane.showMessageDialog(null,
-							"Projet " + configProjet.getNom()+" configuré.\nLa suite bientôt disponible :D", "En construction...",
-					        JOptionPane.INFORMATION_MESSAGE);
+							"Projet " + configProjet.getNom()+" configuré.\nDossier créé à : " + configProjet.getCheminRacine() + "\nLa suite bientôt disponible :D", "En construction...",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else
+				{
+					JOptionPane
+			        .showMessageDialog(
+			                null,
+			                "Vous n'avez pas spécifié de nom pour le projet",
+			                "Configuration invalide",
+			                JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
