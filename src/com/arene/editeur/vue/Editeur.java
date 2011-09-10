@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import com.arene.editeur.utils.dialog.InputDialog;
+
 @SuppressWarnings("serial")
 public class Editeur extends JFrame
 {
@@ -70,7 +72,24 @@ public class Editeur extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				cheminRacine = JOptionPane.showInputDialog(null, "Chemin du projet", "Configuration du nouveau jeu", JOptionPane.QUESTION_MESSAGE);
+//				cheminRacine = JOptionPane.showInputDialog(null, "Chemin du projet", "Configuration du nouveau jeu", JOptionPane.QUESTION_MESSAGE);
+				String[] titles =
+				{"Nom du projet", "Chemin absolu du projet"};
+				int[] sizes = {8, 30};
+				
+				InputDialog dialogParam =
+					new InputDialog(null, "Création d'un nouveau jeu", true, titles);
+				dialogParam.setTextOkButton("Créer");
+				dialogParam.setTextIntro("Configuration du nouveau jeu");
+				dialogParam.setFieldSize(25);
+
+				String[] results = new String[titles.length];
+				boolean validated = dialogParam.showDialog(results);
+
+				if (validated)
+				{
+					
+				}
 			}
 		});
 		
