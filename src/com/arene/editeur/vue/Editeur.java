@@ -12,13 +12,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import com.arene.editeur.modele.ConfigProjet;
 import com.arene.editeur.utils.dialog.InputDialog;
 
 @SuppressWarnings("serial")
 public class Editeur extends JFrame
 {
 	// général
-	String cheminRacine = null;
+	private ConfigProjet configProjet = null;
 
 	// Menu
 	private JMenuBar menuBar = new JMenuBar();
@@ -86,8 +87,10 @@ public class Editeur extends JFrame
 
 				if (validated)
 				{
+					configProjet = new ConfigProjet(results[0], results[1]);
+					Editeur.this.setTitle("Édition du jeu " + results[0]);
 					JOptionPane.showMessageDialog(null,
-					        "Bientôt disponible :D", "En construction...",
+							"Projet " + configProjet.getNom()+" configuré.\nLa suite bientôt disponible :D", "En construction...",
 					        JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
@@ -107,7 +110,7 @@ public class Editeur extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (cheminRacine == null)
+				if (configProjet == null)
 				{
 					JOptionPane
 					        .showMessageDialog(
