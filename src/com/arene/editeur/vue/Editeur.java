@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,6 +15,7 @@ import javax.swing.KeyStroke;
 
 import com.arene.editeur.modele.ConfigProjet;
 import com.arene.editeur.utils.dialog.InputDialog;
+import com.arene.editeur.utils.dialog.RadioDialog;
 
 @SuppressWarnings("serial")
 public class Editeur extends JFrame
@@ -25,6 +27,7 @@ public class Editeur extends JFrame
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
 	private JMenuItem menuNew = new JMenuItem("Nouveau jeu");
+	private JMenuItem menuOpen = new JMenuItem("Ouvrir un projet");
 	private JMenuItem menuQuit = new JMenuItem("Quitter");
 
 	private JMenu menuConfig = new JMenu("Configurer");
@@ -68,6 +71,51 @@ public class Editeur extends JFrame
 		menuQuit.setMnemonic('Q');
 		menuQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 		        KeyEvent.CTRL_MASK));
+		menuOpen.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				File dossierProjet = new File("projets");
+				
+				// On suppose pour le moment qu'il n'y a que des dossiers
+				String[] titles = dossierProjet.list();
+
+				RadioDialog dialogProjetSelection =
+				        new RadioDialog(null, "Ouverture d'un projet", true,
+				                titles);
+				dialogProjetSelection.setTextOkButton("Ouvrir");
+				dialogProjetSelection
+				        .setTextIntro("Choisissez le projet à ouvrir");
+
+				String[] results = new String[titles.length];
+				boolean validated = dialogProjetSelection.showDialog(results);
+
+				if (validated)
+				{
+					String nomProjet = "";
+					for (int i = 0; i < titles.length; i++)
+					{
+						if (!results[i].isEmpty())
+						{
+							nomProjet = results[i];
+						}
+					}
+
+					configProjet = new ConfigProjet(nomProjet);
+					configProjet.chargerConfig();
+					Editeur.this.setTitle("Édition du jeu " + nomProjet);
+					JOptionPane.showMessageDialog(null, "Projet "
+					        + configProjet.getNom()
+					        + " configuré.\nLa suite bientôt disponible :D",
+					        "En construction...",
+					        JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		menuOpen.setMnemonic('O');
+		menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+		        KeyEvent.CTRL_MASK));
 		menuNew.addActionListener(new ActionListener()
 		{
 			@Override
@@ -101,10 +149,13 @@ public class Editeur extends JFrame
 				        JOptionPane.showInputDialog(null, "Nom du projet",
 				                "Configuration du nouveau jeu",
 				                JOptionPane.QUESTION_MESSAGE);
-				if (!nomProjet.isEmpty())
+				
+				System.out.println(nomProjet);
+				if (nomProjet != null && !nomProjet.isEmpty())
 				{
 					Editeur.this.setTitle("Édition du jeu " + nomProjet);
 					configProjet = new ConfigProjet(nomProjet);
+					configProjet.nouvelleConfig();
 					JOptionPane.showMessageDialog(null,
 					        "Projet " + configProjet.getNom()
 					                + " configuré.\nDossier créé à : "
@@ -113,7 +164,7 @@ public class Editeur extends JFrame
 					        "Projet " + nomProjet + " créé !",
 					        JOptionPane.INFORMATION_MESSAGE);
 				}
-				else
+				else if (nomProjet != null)
 				{
 					JOptionPane
 					        .showMessageDialog(
@@ -130,6 +181,7 @@ public class Editeur extends JFrame
 		        KeyEvent.CTRL_MASK));
 
 		menuFichier.add(menuNew);
+		menuFichier.add(menuOpen);
 		menuFichier.add(menuQuit);
 		menuFichier.setMnemonic('F');
 

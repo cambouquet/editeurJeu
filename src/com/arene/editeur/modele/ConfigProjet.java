@@ -9,7 +9,9 @@ import com.arene.editeur.utils.file.FileTools;
 public class ConfigProjet
 {
 	private String nom;
-	private String cheminRacine;
+	private File dossierProjet;
+	
+	private Properties prop = new Properties();
 	
 	/**
 	 * Créé la condifguration pour un projet
@@ -20,26 +22,7 @@ public class ConfigProjet
 	public ConfigProjet(String nom)
 	{
 		this.nom = nom;
-		
-		// Création du dossier projet dans le même dossier
-		File dossierProjet = new File(nom);
-		dossierProjet.mkdir();
-		try
-        {
-	        cheminRacine = dossierProjet.getCanonicalPath();
-	        System.out.println("Dossier créé à l'adresse : " + cheminRacine);
-        }
-        catch (IOException e)
-        {
-	        System.err.println("Erreur lors de l'accèss au chemin du dossier projet.");
-        }
-        
-        // Création du fichier de configuration et enregistrement des données
-        File configFile = new File(cheminRacine + "/config.txt");
-        Properties prop = new Properties();
-        prop.setProperty("nom", nom);
-        
-        FileTools.saveConfig(configFile, prop);
+		dossierProjet = new File("projets/" + nom);
 	}
 	
 	public String getNom()
@@ -49,6 +32,63 @@ public class ConfigProjet
 	
 	public String getCheminRacine()
 	{
-		return this.cheminRacine;
+		String cheminProjet = "";
+		try
+        {
+	        cheminProjet = this.dossierProjet.getCanonicalPath();
+        }
+        catch (IOException e)
+        {
+	        System.err.println("Erreur lors de l'accèss au chemin du dossier projet dans ConfigProjet.getCheminRacine().");
+        }
+        
+        return cheminProjet;
+	}
+	
+	public boolean nouvelleConfig()
+	{
+		boolean creationOk = true;
+		
+		// Création du dossier projet dans le même dossier
+		dossierProjet.mkdir();
+		try
+        {
+	        String cheminRacine = dossierProjet.getCanonicalPath();
+	        System.out.println("Dossier créé à l'adresse : " + cheminRacine);
+	        
+	        // Création du fichier de configuration et enregistrement des données
+	        File configFile = new File(cheminRacine + "/config.txt");
+	        prop.setProperty("nom", nom);
+	        FileTools.saveConfig(configFile, prop);
+        }
+        catch (IOException e)
+        {
+        	creationOk = false;
+	        System.err.println("Erreur lors de l'accèss au chemin du dossier projet dans ConfigProjet.nouvelleConfig().");
+        }
+        
+        return creationOk;
+	}
+	
+	public boolean chargerConfig()
+	{
+		boolean chargementOk = true;
+		
+		try
+        {
+	        String cheminRacine = dossierProjet.getCanonicalPath();
+	        System.out.println("Ouverture du dossier : " + cheminRacine);
+	        // Lecture du fichier de configuration et enregistrement des données
+	        File configFile = new File(cheminRacine + "/config.txt");
+	        
+	        prop = FileTools.readConfig(configFile);
+        }
+        catch (IOException e)
+        {
+        	chargementOk = false;
+	        System.err.println("Erreur lors de l'accèss au chemin du dossier projet dans ConfigProjet.chargerConfig().");
+        }
+        
+        return chargementOk;
 	}
 }

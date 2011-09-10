@@ -67,7 +67,7 @@ public abstract class FileTools
 	 * @return Les paramètres lus (venant de la config si le paramètre a pu être
 	 *         lu, sinon -1)
 	 */
-	public static Properties lireConfig(File file)
+	public static Properties readConfig(File file)
 	{
 		FileReader fr;
 		Properties prop = new Properties();
