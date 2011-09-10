@@ -53,6 +53,13 @@ public abstract class AbstractEasyDialog extends AbstractDialog
 		elementsPanel.setLayout(new GridBagLayout());
 		add(elementsPanel, BorderLayout.CENTER);
 		this.titles = titres;
+		
+		this.groupes = new int[this.titles.length];
+		for (int i = 0 ; i < this.groupes.length ; i ++)
+		{
+			groupes[i] = 1;
+		}
+		
 		returns = new String[titles.length];
 	}
 

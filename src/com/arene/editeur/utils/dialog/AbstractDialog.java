@@ -23,7 +23,7 @@ public abstract class AbstractDialog extends JDialog
 	protected JPanel buttonsPanel;
 	
 	protected String[] titles; // Les titre des éléments
-	protected int[] groupes = new int[0]; // Les différents groupes
+	protected int[] groupes; // Les différents groupes
 	protected boolean validated = true; // Si la boite de dialogue a été validée
 	protected JButton okButton; // Le bouton de validation
 	protected JButton cancelButton; // Le bouton d'annulation

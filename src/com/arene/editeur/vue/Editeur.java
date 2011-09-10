@@ -60,6 +60,8 @@ public class Editeur extends JFrame
 	private void initMenu()
 	{
 		// Menu Fichier
+		
+		// Menu Quitter
 		menuQuit.addActionListener(new ActionListener()
 		{
 			@Override
@@ -71,11 +73,14 @@ public class Editeur extends JFrame
 		menuQuit.setMnemonic('Q');
 		menuQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 		        KeyEvent.CTRL_MASK));
+		
+		// Menu Ouvrir
 		menuOpen.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
+				// Création et affichage de la boite de dialogue
 				File dossierProjet = new File("projets");
 				
 				// On suppose pour le moment qu'il n'y a que des dossiers
@@ -91,6 +96,7 @@ public class Editeur extends JFrame
 				String[] results = new String[titles.length];
 				boolean validated = dialogProjetSelection.showDialog(results);
 
+				// Analyse des résultats
 				if (validated)
 				{
 					String nomProjet = "";
@@ -107,7 +113,7 @@ public class Editeur extends JFrame
 					Editeur.this.setTitle("Édition du jeu " + nomProjet);
 					JOptionPane.showMessageDialog(null, "Projet "
 					        + configProjet.getNom()
-					        + " configuré.\nLa suite bientôt disponible :D",
+					        + " ouvert.\nLa suite bientôt disponible :D",
 					        "En construction...",
 					        JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -116,11 +122,15 @@ public class Editeur extends JFrame
 		menuOpen.setMnemonic('O');
 		menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 		        KeyEvent.CTRL_MASK));
+		
+		// Menu Nouveau
 		menuNew.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
+				// Création et affichage de la boite de dialogue
+				
 				// String[] titles = {"Nom du projet",
 				// "Chemin absolu du projet"};
 				//
@@ -150,7 +160,8 @@ public class Editeur extends JFrame
 				                "Configuration du nouveau jeu",
 				                JOptionPane.QUESTION_MESSAGE);
 				
-				System.out.println(nomProjet);
+				
+				// Analyse des résultats
 				if (nomProjet != null && !nomProjet.isEmpty())
 				{
 					Editeur.this.setTitle("Édition du jeu " + nomProjet);

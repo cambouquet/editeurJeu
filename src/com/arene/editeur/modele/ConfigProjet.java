@@ -8,9 +8,19 @@ import com.arene.editeur.utils.file.FileTools;
 
 public class ConfigProjet
 {
+	/**
+	 * Le nom du projet
+	 */
 	private String nom;
+	
+	/**
+	 * Le dossier contenant le projet
+	 */
 	private File dossierProjet;
 	
+	/**
+	 * Les propriétés de la configuration
+	 */
 	private Properties prop = new Properties();
 	
 	/**
@@ -25,11 +35,23 @@ public class ConfigProjet
 		dossierProjet = new File("projets/" + nom);
 	}
 	
+	/**
+	 * Renvoie le nom du projet
+	 * 
+	 * @return
+	 * 		Le nom du projet
+	 */
 	public String getNom()
 	{
 		return this.nom;
 	}
 	
+	/**
+	 * Renvoie le chemin du dossier racine du projet.
+	 * 
+	 * @return
+	 * 		Le chemin canonique
+	 */
 	public String getCheminRacine()
 	{
 		String cheminProjet = "";
@@ -45,6 +67,12 @@ public class ConfigProjet
         return cheminProjet;
 	}
 	
+	/**
+	 * Créé une nouvelle configuration pour un nouveau projet.
+	 * 
+	 * @return
+	 * 		true - La configuration a été correctement crée.
+	 */
 	public boolean nouvelleConfig()
 	{
 		boolean creationOk = true;
@@ -70,6 +98,12 @@ public class ConfigProjet
         return creationOk;
 	}
 	
+	/**
+	 * Ouvre la configuration d'un projet existant.
+	 * 
+	 * @return
+	 * 		true - La configuration a été correctement chargée.
+	 */
 	public boolean chargerConfig()
 	{
 		boolean chargementOk = true;

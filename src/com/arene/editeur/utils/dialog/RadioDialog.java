@@ -5,6 +5,7 @@ import java.awt.Insets;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
@@ -78,31 +79,18 @@ public class RadioDialog extends AbstractEasyDialog
 	@Override
 	protected void setElements()
 	{
-		boolean groupesSet = false;
-		ButtonGroup[] bg = new ButtonGroup[1];
-		if (groupes.length > 0)
+		int nbGroupes = this.getGroupesNumber();
+		ButtonGroup[] bg = new ButtonGroup[nbGroupes];
+		for (int i = 0; i < bg.length; i++)
 		{
-			groupesSet = true;
-			bg = new ButtonGroup[getGroupesNumber()];
-			for (int i = 0; i < bg.length; i++)
-			{
-				bg[i] = new ButtonGroup();
-			}
+			bg[i] = new ButtonGroup();
 		}
 		radioButtons = new JRadioButton[titles.length];
 		for (int i = 0; i < titles.length; i++)
 		{
 			radioButtons[i] = new JRadioButton(titles[i]);
-			if (groupesSet)
-			{
-				bg[groupes[i] - 1].add(radioButtons[i]);
+			bg[groupes[i] - 1].add(radioButtons[i]);
 
-			}
-			else
-			{
-				bg[0] = new ButtonGroup();
-				bg[0].add(radioButtons[i]);
-			}
 			elementsPanel.add(radioButtons[i], new GridBagConstraints(0, i + 1,
 			        2, 1, 1.0, 0.0, GridBagConstraints.CENTER,
 			        GridBagConstraints.NONE, new Insets(3, 3, 3, 3), 0, 0));
@@ -120,7 +108,7 @@ public class RadioDialog extends AbstractEasyDialog
 	 */
 	private int getGroupesNumber()
 	{
-		int nbrGrp = 0;
+		int nbrGrp = 1;
 		for (int i = 0; i < groupes.length; i++)
 		{
 			if (groupes[i] > nbrGrp)
