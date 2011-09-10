@@ -27,12 +27,18 @@ public class Editeur extends JFrame
 	private JMenu menuConfig = new JMenu("Configurer");
 	private JMenuItem menuEditSprites = new JMenuItem("Sprites...");
 	
+	/**
+	 * Constructeur basique d'un éditeur : créer une fenêtre et ajoute un mennu.
+	 */
 	public Editeur()
 	{
 		initFenetre();
 		initMenu();
 	}
 	
+	/**
+	 * Initialise les paramètres de la fenêtre.
+	 */
 	private void initFenetre()
 	{
 		this.setTitle("Editeur de jeu");
@@ -42,6 +48,9 @@ public class Editeur extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Initialise le menu et ses actions.
+	 */
 	private void initMenu()
 	{
 		// Menu Fichier
