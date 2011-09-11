@@ -151,6 +151,8 @@ public class Editeur extends JFrame
 				 dialogParam.setTextOkButton("Créer");
 				 dialogParam.setTextIntro("Configuration du nouveau jeu");
 				 dialogParam.setFieldSize(10);
+				 boolean[] mandatories = {true, true};
+				 dialogParam.setMandatories(mandatories);
 				
 				 String[] results = new String[titles.length];
 				 boolean validated = dialogParam.showDialog(results);
