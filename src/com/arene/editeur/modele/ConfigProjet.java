@@ -41,9 +41,20 @@ public class ConfigProjet
 	 * @return
 	 * 		Le nom du projet
 	 */
-	public String getNom()
+	public String getNomProjet()
 	{
 		return this.nomProjet;
+	}
+	
+	/**
+	 * Renvoie le nom du jeu
+	 * 
+	 * @return
+	 * 		Le nom du jeu
+	 */
+	public String getNomJeu()
+	{
+		return prop.getProperty("nomJeu", null);
 	}
 	
 	/**
@@ -69,11 +80,12 @@ public class ConfigProjet
 	
 	/**
 	 * Créé une nouvelle configuration pour un nouveau projet.
+	 * @param nomJeu 
 	 * 
 	 * @return
 	 * 		true - La configuration a été correctement crée.
 	 */
-	public boolean nouvelleConfig()
+	public boolean nouvelleConfig(String nomJeu)
 	{
 		boolean creationOk = true;
 		
@@ -86,7 +98,7 @@ public class ConfigProjet
 	        
 	        // Création du fichier de configuration et enregistrement des données
 	        File configFile = new File(cheminRacine + "/config.txt");
-	        prop.setProperty("nom", nomProjet);
+	        prop.setProperty("nomJeu", nomJeu);
 	        FileTools.saveConfig(configFile, prop);
         }
         catch (IOException e)

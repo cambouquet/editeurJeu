@@ -142,58 +142,38 @@ public class Editeur extends JFrame
 			{
 				// Création et affichage de la boite de dialogue
 				
-				// String[] titles = {"Nom du projet",
-				// "Chemin absolu du projet"};
-				//
-				// InputDialog dialogParam =
-				// new InputDialog(null, "Création d'un nouveau jeu",
-				// true, titles);
-				// dialogParam.setTextOkButton("Créer");
-				// dialogParam.setTextIntro("Configuration du nouveau jeu");
-				// dialogParam.setFieldSize(25);
-				//
-				// String[] results = new String[titles.length];
-				// boolean validated = dialogParam.showDialog(results);
-				//
-				// if (validated)
-				// {
-				// configProjet = new ConfigProjet(results[0], "");
-				// Editeur.this.setTitle("Édition du jeu " + results[0]);
-				// JOptionPane.showMessageDialog(null,
-				// "Projet " +
-				// configProjet.getNom()+" configuré.\nLa suite bientôt disponible :D",
-				// "En construction...",
-				// JOptionPane.INFORMATION_MESSAGE);
-				// }
-
-				String nomProjet =
-				        JOptionPane.showInputDialog(null, "Nom du projet",
-				                "Configuration du nouveau jeu",
-				                JOptionPane.QUESTION_MESSAGE);
+				 String[] titles = {"Nom du projet",
+				 "Nom du jeu"};
 				
+				 InputDialog dialogParam =
+				 new InputDialog(null, "Création d'un nouveau jeu",
+				 true, titles);
+				 dialogParam.setTextOkButton("Créer");
+				 dialogParam.setTextIntro("Configuration du nouveau jeu");
+				 dialogParam.setFieldSize(10);
 				
-				// Analyse des résultats
-				if (nomProjet != null && !nomProjet.isEmpty())
-				{
-					Editeur.this.setTitle("Édition du jeu " + nomProjet);
-					controleurProjet.creerProjet(nomProjet);
-					JOptionPane.showMessageDialog(null,
-					        "Projet " + nomProjet
-					                + " configuré.\nDossier créé à : "
-					                + ""
-					                + "\nLa suite bientôt disponible :D",
-					        "Projet " + nomProjet + " créé !",
-					        JOptionPane.INFORMATION_MESSAGE);
-				}
-				else if (nomProjet != null)
-				{
-					JOptionPane
-					        .showMessageDialog(
-					                null,
-					                "Vous n'avez pas spécifié de nom pour le projet",
-					                "Configuration invalide",
-					                JOptionPane.ERROR_MESSAGE);
-				}
+				 String[] results = new String[titles.length];
+				 boolean validated = dialogParam.showDialog(results);
+				
+				 if (validated && !results[0].isEmpty())
+				 {
+					 Editeur.this.setTitle("Édition du projet " + results[0] + " : " + results[1]);
+						controleurProjet.creerProjet(results[0], results[1]);
+						JOptionPane.showMessageDialog(null,
+						        "Projet " + results[0]
+						                + " configuré pour le jeu : " + results[1] + ".\n"
+						                + "\nLa suite bientôt disponible :D",
+						        "Projet " + results[0] + " créé !",
+						        JOptionPane.INFORMATION_MESSAGE);
+				 } else if (validated && results[0].isEmpty())
+				 {
+					 JOptionPane
+				        .showMessageDialog(
+				                null,
+				                "Vous n'avez pas spécifié de nom pour le projet",
+				                "Configuration invalide",
+				                JOptionPane.ERROR_MESSAGE);
+				 }
 			}
 		});
 
