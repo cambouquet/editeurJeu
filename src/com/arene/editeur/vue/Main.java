@@ -2,6 +2,8 @@ package com.arene.editeur.vue;
 
 import java.io.File;
 
+import com.arene.editeur.controleur.ControleurProjet;
+
 public class Main
 {
 	/**
@@ -16,7 +18,8 @@ public class Main
 			dossierProjets.mkdir();
 		}
 		
-		Editeur editeur = new Editeur();
+		ControleurProjet controleurProjet = new ControleurProjet();
+		Editeur editeur = new Editeur(controleurProjet);
 		editeur.setVisible(true);
 	}
 

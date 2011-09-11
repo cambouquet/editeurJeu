@@ -11,7 +11,7 @@ public class ConfigProjet
 	/**
 	 * Le nom du projet
 	 */
-	private String nom;
+	private String nomProjet;
 	
 	/**
 	 * Le dossier contenant le projet
@@ -31,7 +31,7 @@ public class ConfigProjet
 	 */
 	public ConfigProjet(String nom)
 	{
-		this.nom = nom;
+		this.nomProjet = nom;
 		dossierProjet = new File("projets/" + nom);
 	}
 	
@@ -43,7 +43,7 @@ public class ConfigProjet
 	 */
 	public String getNom()
 	{
-		return this.nom;
+		return this.nomProjet;
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class ConfigProjet
 	        
 	        // Création du fichier de configuration et enregistrement des données
 	        File configFile = new File(cheminRacine + "/config.txt");
-	        prop.setProperty("nom", nom);
+	        prop.setProperty("nom", nomProjet);
 	        FileTools.saveConfig(configFile, prop);
         }
         catch (IOException e)

@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import com.arene.editeur.controleur.ControleurProjet;
 import com.arene.editeur.modele.ConfigProjet;
 import com.arene.editeur.utils.dialog.InputDialog;
 import com.arene.editeur.utils.dialog.RadioDialog;
@@ -21,7 +22,7 @@ import com.arene.editeur.utils.dialog.RadioDialog;
 public class Editeur extends JFrame
 {
 	// général
-	private ConfigProjet configProjet = null;
+	private ControleurProjet controleurProjet = null;
 
 	// Menu
 	private JMenuBar menuBar = new JMenuBar();
@@ -36,8 +37,9 @@ public class Editeur extends JFrame
 	/**
 	 * Constructeur basique d'un éditeur : créer une fenêtre et ajoute un mennu.
 	 */
-	public Editeur()
+	public Editeur(ControleurProjet controleurProjet)
 	{
+		this.controleurProjet = controleurProjet;
 		initFenetre();
 		initMenu();
 	}
@@ -112,11 +114,10 @@ public class Editeur extends JFrame
 						}
 					}
 
-					configProjet = new ConfigProjet(nomProjet);
-					configProjet.chargerConfig();
+					controleurProjet.ouvrirProjet(nomProjet);
 					Editeur.this.setTitle("Édition du jeu " + nomProjet);
 					JOptionPane.showMessageDialog(null, "Projet "
-					        + configProjet.getNom()
+					        + nomProjet
 					        + " ouvert.\nLa suite bientôt disponible :D",
 					        "En construction...",
 					        JOptionPane.INFORMATION_MESSAGE);
@@ -175,12 +176,11 @@ public class Editeur extends JFrame
 				if (nomProjet != null && !nomProjet.isEmpty())
 				{
 					Editeur.this.setTitle("Édition du jeu " + nomProjet);
-					configProjet = new ConfigProjet(nomProjet);
-					configProjet.nouvelleConfig();
+					controleurProjet.creerProjet(nomProjet);
 					JOptionPane.showMessageDialog(null,
-					        "Projet " + configProjet.getNom()
+					        "Projet " + nomProjet
 					                + " configuré.\nDossier créé à : "
-					                + configProjet.getCheminRacine()
+					                + ""
 					                + "\nLa suite bientôt disponible :D",
 					        "Projet " + nomProjet + " créé !",
 					        JOptionPane.INFORMATION_MESSAGE);
@@ -212,7 +212,7 @@ public class Editeur extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (configProjet == null)
+				if (!controleurProjet.projetOuvert())
 				{
 					JOptionPane
 					        .showMessageDialog(
