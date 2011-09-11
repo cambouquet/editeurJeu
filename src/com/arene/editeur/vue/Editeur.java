@@ -47,7 +47,7 @@ public class Editeur extends JFrame
 	 */
 	private void initFenetre()
 	{
-		this.setTitle("Editeur de jeu");
+		this.setTitle("Éditeur de jeu");
 		this.setMinimumSize(new Dimension(600, 600));
 		this.setSize(600, 600);
 		this.setLocationRelativeTo(null);
@@ -85,6 +85,10 @@ public class Editeur extends JFrame
 				
 				// On suppose pour le moment qu'il n'y a que des dossiers
 				String[] titles = dossierProjet.list();
+				
+				if (titles.length > 0)
+				{
+					
 
 				RadioDialog dialogProjetSelection =
 				        new RadioDialog(null, "Ouverture d'un projet", true,
@@ -115,6 +119,12 @@ public class Editeur extends JFrame
 					        + configProjet.getNom()
 					        + " ouvert.\nLa suite bientôt disponible :D",
 					        "En construction...",
+					        JOptionPane.INFORMATION_MESSAGE);
+				}
+				} else
+				{
+					JOptionPane.showMessageDialog(null, "Il n'y a actuellement aucun projet.\nVous pouvez en créer un nouveau avec le menu Nouveau.",
+					        "Aucun projet",
 					        JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
