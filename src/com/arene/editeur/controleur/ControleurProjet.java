@@ -10,16 +10,20 @@ public class ControleurProjet
 	{
 	}
 	
-	public boolean creerProjet(String nomProjet, String nomJeu)
+	public ConfigProjet creerProjet(String nomProjet, String nomJeu)
 	{
 		configProjet = new ConfigProjet(nomProjet);
-		return configProjet.nouvelleConfig(nomJeu);
+		configProjet.nouvelleConfig(nomJeu);
+		
+		return configProjet;
 	}
 	
-	public boolean ouvrirProjet(String nom)
+	public ConfigProjet ouvrirProjet(String nom)
 	{
 		configProjet = new ConfigProjet(nom);
-		return configProjet.chargerConfig();
+		configProjet.chargerConfig();
+		
+		return configProjet;
 	}
 	
 	public boolean projetOuvert()

@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import com.arene.editeur.utils.file.FileTools;
 
-public class ConfigProjet
+public class ConfigProjet implements ConfigProjetRequetes
 {
 	/**
 	 * Le nom du projet
