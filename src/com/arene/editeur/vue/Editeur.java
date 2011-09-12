@@ -172,7 +172,7 @@ public class Editeur extends JFrame
 					JOptionPane.showMessageDialog(null, "Projet " + results[0]
 					        + " configuré pour le jeu : " + results[1] + ".\n"
 					        + "Dossier projet créé à : " + Editeur.this.configProjet.getCheminRacine()
-					        + "\nLa suite bientôt disponible :D", "Projet "
+					        + "\nVous pouvez maintenant éditer les sprites :D", "Projet "
 					        + results[0] + " créé !",
 					        JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -214,9 +214,7 @@ public class Editeur extends JFrame
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null,
-					        "Bientôt disponible :D", "En construction...",
-					        JOptionPane.INFORMATION_MESSAGE);
+					Editeur.this.controleurProjet.lancerEditeurSprites();
 				}
 			}
 		});

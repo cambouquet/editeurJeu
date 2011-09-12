@@ -1,6 +1,7 @@
 package com.arene.editeur.controleur;
 
 import com.arene.editeur.modele.ConfigProjet;
+import com.arene.editeur.vue.EditeurSprites;
 
 public class ControleurProjet
 {
@@ -30,4 +31,11 @@ public class ControleurProjet
 	{
 		return (configProjet == null) ? false : true;
 	}
+
+	public void lancerEditeurSprites()
+    {
+		ControleurEditeurSprites ctrlEditeurSprites = new ControleurEditeurSprites();
+		EditeurSprites editeurSprites = new EditeurSprites(ctrlEditeurSprites, configProjet.getDossierProjet());
+		editeurSprites.setVisible(true);
+    }
 }

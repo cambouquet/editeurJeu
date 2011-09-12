@@ -137,4 +137,9 @@ public class ConfigProjet implements ConfigProjetRequetes
         
         return chargementOk;
 	}
+
+	public File getDossierProjet()
+    {
+	    return dossierProjet;
+    }
 }
