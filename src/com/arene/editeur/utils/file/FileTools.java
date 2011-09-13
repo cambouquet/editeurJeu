@@ -9,6 +9,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Classe utilitaire pour interagir avec des fichiers.
+ * @author Camille
+ *
+ */
 public abstract class FileTools
 {
 	/**

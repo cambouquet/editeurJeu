@@ -1,6 +1,10 @@
 package com.arene.editeur.modele;
 
-
+/**
+ * Interface pour effectuer des requêtes sur la configuration d'un projet.
+ * @author Camille
+ *
+ */
 public interface ConfigProjetRequetes
 {
 	/**

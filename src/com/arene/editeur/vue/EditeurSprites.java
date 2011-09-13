@@ -15,22 +15,57 @@ import javax.swing.KeyStroke;
 
 import com.arene.editeur.controleur.ControleurEditeurSprites;
 
+/**
+ * Vue de l'éditeur de sprites.
+ * @author Camille
+ *
+ */
+@SuppressWarnings("serial")
 public class EditeurSprites extends JFrame
 {
 	// Controleur
+	/**
+	 * Controleur de l'éditeur de sprites.
+	 */
 	private ControleurEditeurSprites ctrlEditeurSprites = null;
 
 	// Modeles
 
 	// Menu
+	/**
+	 * La barre de menu.
+	 */
 	private JMenuBar menuBar = new JMenuBar();
+	
+	/**
+	 * Le menu Fichier.
+	 */
 	private JMenu menuFichier = new JMenu("Fichier");
+	
+	/**
+	 * Le sous-menu Sauvegarder : sauvegarder la configuration du sprite en édition.
+	 */
 	private JMenuItem menuSave = new JMenuItem("Sauvegarder");
+	
+	/**
+	 * Le sous-menu Quitter : Quitter l'éditeur de sprites et revenir à l'éditeur de jeu.
+	 */
 	private JMenuItem menuQuit = new JMenuItem("Quitter");
 
 	// Autres
+	/**
+	 * Le dossier racine du projet.
+	 */
 	private File dossierProjet = null;
 
+	/**
+	 * Créer une nouvelle vue pour l'éditeur de sprites.
+	 * 
+	 * @param ctrlEditeurSprites
+	 * 		Le controleur de l'éditeur de sprites.
+	 * @param dossierProjet
+	 * 		Le dossier racine du projet actuel.
+	 */
 	public EditeurSprites(ControleurEditeurSprites ctrlEditeurSprites,
 	        File dossierProjet)
 	{
@@ -40,14 +75,20 @@ public class EditeurSprites extends JFrame
 		initMenu();
 	}
 
+	/**
+	 * Initialise la fenêtre.
+	 */
 	private void initFenetre()
 	{
 		this.setTitle("Éditeur de sprites");
-		this.setSize(new Dimension(600, 600));
-		this.setMinimumSize(new Dimension(600, 600));
+		this.setSize(new Dimension(400, 400));
+		this.setMinimumSize(new Dimension(400, 400));
 		this.setLocationRelativeTo(this.getParent());
 	}
 
+	/**
+	 * Initialise et ajoute le menu de l'éditeur de sprites.
+	 */
 	private void initMenu()
 	{
 		menuQuit.setMnemonic('S');

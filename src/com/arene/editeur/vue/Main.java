@@ -4,6 +4,12 @@ import java.io.File;
 
 import com.arene.editeur.controleur.ControleurProjet;
 
+/**
+ * La classe Main du projet.
+ * @author Camille
+ *
+ *	Contient la méthode main.
+ */
 public class Main
 {
 	/**

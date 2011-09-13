@@ -18,25 +18,66 @@ import com.arene.editeur.modele.ConfigProjetRequetes;
 import com.arene.editeur.utils.dialog.InputDialog;
 import com.arene.editeur.utils.dialog.RadioDialog;
 
+/**
+ * La fenêtre générale de l'éditeur.
+ * @author Camille
+ *
+ */
 @SuppressWarnings("serial")
 public class Editeur extends JFrame
 {
 	// général
+	/**
+	 * Le contrôleur général du projet et de la fenetre editeur.
+	 */
 	private ControleurProjet controleurProjet = null;
+	
+	/**
+	 * La configuration du projet pour faire des requêtes.
+	 */
 	private ConfigProjetRequetes configProjet = null;
 
 	// Menu
+	/**
+	 * La barre de menu.
+	 */
 	private JMenuBar menuBar = new JMenuBar();
+	
+	/**
+	 * Le menu Fichier.
+	 */
 	private JMenu menuFichier = new JMenu("Fichier");
-	private JMenuItem menuNew = new JMenuItem("Nouveau jeu");
+	
+	/**
+	 * Le sous-menu Nouveau : créer un nouveau projet.
+	 */
+	private JMenuItem menuNew = new JMenuItem("Nouveau projet");
+	
+	/**
+	 * Le sous-menu Ouvrir : ouvrir un projet existant.
+	 */
 	private JMenuItem menuOpen = new JMenuItem("Ouvrir un projet");
+	
+	/**
+	 * Le sous-menu Quitter : Quitter l'éditeur de jeu.
+	 */
 	private JMenuItem menuQuit = new JMenuItem("Quitter");
 
+	/**
+	 * Le menu Configurer : configuration des différents éléments.
+	 */
 	private JMenu menuConfig = new JMenu("Configurer");
+	
+	/**
+	 * Le sous-menu Sprites : Ouvrir l'éditeur de sprites.
+	 */
 	private JMenuItem menuEditSprites = new JMenuItem("Sprites...");
 
 	/**
 	 * Constructeur basique d'un éditeur : créer une fenêtre et ajoute un mennu.
+	 * 
+	 * @param controleurProjet
+	 * 		Le controleur du projet.
 	 */
 	public Editeur(ControleurProjet controleurProjet)
 	{
@@ -117,10 +158,10 @@ public class Editeur extends JFrame
 
 						Editeur.this.configProjet =
 						        controleurProjet.ouvrirProjet(nomProjet);
-						Editeur.this.setTitle("Édition du jeu " + nomProjet);
+						Editeur.this.setTitle("Édition du jeu " + nomProjet + " : " + configProjet.getNomJeu());
 						JOptionPane.showMessageDialog(null, "Projet "
 						        + nomProjet
-						        + " ouvert.\nLa suite bientôt disponible :D",
+						        + " ouvert.\nVous pouvez maintenant éditer les sprites :D",
 						        "En construction...",
 						        JOptionPane.INFORMATION_MESSAGE);
 					}
