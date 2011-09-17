@@ -1,5 +1,7 @@
 package com.arene.editeur.vue;
 
+import java.util.Enumeration;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -19,11 +21,17 @@ public class PanneauSelection extends JPanel
 	{
 		super();
 		this.ctrlPanneauSelection = ctrlPanneauSelection;
+		Enumeration<String> nomsOnglets = ctrlPanneauSelection.getNomsOnglets();
+		while (nomsOnglets.hasMoreElements())
+		{
+			ajouterOnglet(nomsOnglets.nextElement(), true, PanneauSelection.AFFICHAGE_ICONES);
+		}
+		this.add(onglets);
 	}
 	
-	public void ajouterOnglet(String titre, String description, boolean avecCategories, int typeAffichage)
+	public void ajouterOnglet(String titre, boolean avecCategories, int typeAffichage)
 	{
 		PanneauSelectionOnglet onglet = new PanneauSelectionOnglet(ctrlPanneauSelection.getElements(onglets.getTabCount()));
-		onglets.addTab(titre, null, onglet, description);
+		onglets.addTab(titre, onglet);
 	}
 }

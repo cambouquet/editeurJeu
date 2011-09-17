@@ -24,7 +24,7 @@ public class ControleurEditeurSprites
 	public PanneauSelection creerPanneauSelection()
     {
 	    ControleurPanneauSelection ctrlPanneauSelection = new ControleurPanneauSelection();
-	    ctrlPanneauSelection.addElementsOnglet();
+	    ctrlPanneauSelection.ajouterOnglet("Test");
 	    return new PanneauSelection(ctrlPanneauSelection);
     }
 }

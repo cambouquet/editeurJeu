@@ -1,6 +1,7 @@
 package com.arene.editeur.controleur;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import com.arene.editeur.modele.ElementDeSelection;
@@ -9,7 +10,7 @@ import com.arene.editeur.vue.PanneauSelectionElement;
 public class ControleurPanneauSelection
 {
 
-	private Hashtable<String, Hashtable<String, ArrayList<ElementDeSelection>>> elementsRaw;
+	private Hashtable<String, Hashtable<String, ArrayList<ElementDeSelection>>> elementsRaw = new Hashtable<String, Hashtable<String, ArrayList<ElementDeSelection>>>();
 
 	/**
 	 * Liste des onglets (Hashtable) contenant les différentes catégories
@@ -35,6 +36,11 @@ public class ControleurPanneauSelection
 			}
 			elementsVue.get(nomOnglet).put(nom, elementsListe);
 		}
+	}
+	
+	public Enumeration<String> getNomsOnglets()
+	{
+		return elementsVue.keys();
 	}
 
 	public Hashtable<String, ArrayList<PanneauSelectionElement>> getElements(
