@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -52,12 +51,9 @@ public class EditeurSprites extends JFrame
 	 */
 	private JMenuItem menuQuit = new JMenuItem("Quitter");
 
-	// Autres
-	/**
-	 * Le dossier racine du projet.
-	 */
-	private File dossierProjet = null;
-
+	// Elements de la fenêtre
+	private PanneauSelection panneauSelection;
+	
 	/**
 	 * Créer une nouvelle vue pour l'éditeur de sprites.
 	 * 
@@ -66,14 +62,15 @@ public class EditeurSprites extends JFrame
 	 * @param dossierProjet
 	 * 		Le dossier racine du projet actuel.
 	 */
-	public EditeurSprites(ControleurEditeurSprites ctrlEditeurSprites,
-	        File dossierProjet)
+	public EditeurSprites(ControleurEditeurSprites ctrlEditeurSprites)
 	{
 		this.ctrlEditeurSprites = ctrlEditeurSprites;
-		this.dossierProjet = dossierProjet;
 		initFenetre();
 		initMenu();
+		this.panneauSelection = this.ctrlEditeurSprites.creerPanneauSelection();
+		this.add(panneauSelection);
 	}
+
 
 	/**
 	 * Initialise la fenêtre.
@@ -124,5 +121,10 @@ public class EditeurSprites extends JFrame
 		menuBar.add(menuFichier);
 
 		this.setJMenuBar(menuBar);
+	}
+
+	private void creerPanneauSelection()
+	{
+		
 	}
 }

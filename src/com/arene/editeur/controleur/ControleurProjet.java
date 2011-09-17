@@ -74,8 +74,8 @@ public class ControleurProjet
 	 */
 	public void lancerEditeurSprites()
     {
-		ControleurEditeurSprites ctrlEditeurSprites = new ControleurEditeurSprites();
-		EditeurSprites editeurSprites = new EditeurSprites(ctrlEditeurSprites, configProjet.getDossierProjet());
+		ControleurEditeurSprites ctrlEditeurSprites = new ControleurEditeurSprites(configProjet.getDossierProjet());
+		EditeurSprites editeurSprites = new EditeurSprites(ctrlEditeurSprites);
 		editeurSprites.setVisible(true);
     }
 }
