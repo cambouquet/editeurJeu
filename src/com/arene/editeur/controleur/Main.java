@@ -1,8 +1,8 @@
-package com.arene.editeur.vue;
+package com.arene.editeur.controleur;
 
 import java.io.File;
 
-import com.arene.editeur.controleur.ControleurProjet;
+import com.arene.editeur.vue.Editeur;
 
 /**
  * La classe Main du projet.
