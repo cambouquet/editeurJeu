@@ -2,6 +2,7 @@ package com.arene.editeur.controleur;
 
 import java.io.File;
 
+import com.arene.editeur.modele.SelectionOngletModel;
 import com.arene.editeur.vue.PanneauSelection;
 
 /**
@@ -24,7 +25,10 @@ public class ControleurEditeurSprites
 	public PanneauSelection creerPanneauSelection()
     {
 	    ControleurPanneauSelection ctrlPanneauSelection = new ControleurPanneauSelection();
-	    ctrlPanneauSelection.ajouterOnglet("Test");
+	    SelectionOngletModel ongletTest = new SelectionOngletModel("Test", "Panneau de test");
+	    ctrlPanneauSelection.ajouterOnglet(ongletTest);
+	    SelectionOngletModel ongletTest2 = new SelectionOngletModel("Test 2", "Panneau de test 2");
+	    ctrlPanneauSelection.ajouterOnglet(ongletTest2);
 	    return new PanneauSelection(ctrlPanneauSelection);
     }
 }

@@ -1,15 +1,16 @@
 package com.arene.editeur.vue;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-
 import javax.swing.JPanel;
+
+import com.arene.editeur.modele.SelectionOngletModelRequetes;
 
 @SuppressWarnings("serial")
 public class PanneauSelectionOnglet extends JPanel
 {
-	public PanneauSelectionOnglet(Hashtable<String, ArrayList<PanneauSelectionElement>> hashtable)
+	private SelectionOngletModelRequetes ongletModel;
+	
+	public PanneauSelectionOnglet(SelectionOngletModelRequetes ongletModel)
 	{
-		
+		this.ongletModel = ongletModel;
 	}
 }

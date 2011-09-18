@@ -6,9 +6,9 @@ import com.arene.editeur.vue.Editeur;
 
 /**
  * La classe Main du projet.
+ *	Contient la méthode main.
  * @author Camille
  *
- *	Contient la méthode main.
  */
 public class Main
 {

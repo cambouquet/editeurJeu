@@ -1,11 +1,12 @@
 package com.arene.editeur.vue;
 
-import java.util.Enumeration;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import com.arene.editeur.controleur.ControleurPanneauSelection;
+import com.arene.editeur.modele.SelectionOngletModelRequetes;
 
 @SuppressWarnings("serial")
 public class PanneauSelection extends JPanel
@@ -16,22 +17,23 @@ public class PanneauSelection extends JPanel
 	
 	private ControleurPanneauSelection ctrlPanneauSelection;
 	private JTabbedPane onglets = new JTabbedPane();
+	private ArrayList<SelectionOngletModelRequetes> ongletsModel;
 
 	public PanneauSelection(ControleurPanneauSelection ctrlPanneauSelection)
 	{
 		super();
 		this.ctrlPanneauSelection = ctrlPanneauSelection;
-		Enumeration<String> nomsOnglets = ctrlPanneauSelection.getNomsOnglets();
-		while (nomsOnglets.hasMoreElements())
+		ongletsModel = ctrlPanneauSelection.getOnglets();
+		for (SelectionOngletModelRequetes onglet : ongletsModel)
 		{
-			ajouterOnglet(nomsOnglets.nextElement(), true, PanneauSelection.AFFICHAGE_ICONES);
+			ajouterOnglet(onglet);
 		}
 		this.add(onglets);
 	}
 	
-	public void ajouterOnglet(String titre, boolean avecCategories, int typeAffichage)
+	private void ajouterOnglet(SelectionOngletModelRequetes ongletModel)
 	{
-		PanneauSelectionOnglet onglet = new PanneauSelectionOnglet(ctrlPanneauSelection.getElements(onglets.getTabCount()));
-		onglets.addTab(titre, onglet);
+		PanneauSelectionOnglet onglet = new PanneauSelectionOnglet(ongletModel);
+		onglets.addTab(ongletModel.getNom(), null, onglet, ongletModel.getDescription());
 	}
 }
