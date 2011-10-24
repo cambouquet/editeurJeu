@@ -92,8 +92,8 @@ public class Editeur extends JFrame
 	private void initFenetre()
 	{
 		this.setTitle("Éditeur de jeu");
-		this.setMinimumSize(new Dimension(600, 600));
-		this.setSize(600, 600);
+		this.setMinimumSize(new Dimension(800, 800));
+		this.setSize(800, 800);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -189,15 +189,17 @@ public class Editeur extends JFrame
 			{
 				// Création et affichage de la boite de dialogue
 
-				String[] titles = {"Nom du projet", "Nom du jeu"};
+				String[] titles = {"Nom du projet", "Nom du jeu", "Hauteur d'une case (px)", "Largeur d'une case (px)"};
+				String[] defauts = {"", "", "32", "32"};
 
 				InputDialog dialogParam =
 				        new InputDialog(null, "Création d'un nouveau jeu",
 				                true, titles);
+				dialogParam.setDefaults(defauts);
 				dialogParam.setTextOkButton("Créer");
 				dialogParam.setTextIntro("Configuration du nouveau jeu");
 				dialogParam.setFieldSize(10);
-				boolean[] mandatories = {true, true};
+				boolean[] mandatories = {true, true, true, true};
 				dialogParam.setMandatories(mandatories);
 
 				String[] results = new String[titles.length];
@@ -209,7 +211,7 @@ public class Editeur extends JFrame
 					        + " : " + results[1]);
 					Editeur.this.configProjet =
 					        controleurProjet
-					                .creerProjet(results[0], results[1]);
+					                .creerProjet(results);
 					JOptionPane.showMessageDialog(null, "Projet " + results[0]
 					        + " configuré pour le jeu : " + results[1] + ".\n"
 					        + "Dossier projet créé à : " + Editeur.this.configProjet.getCheminRacine()
@@ -260,7 +262,10 @@ public class Editeur extends JFrame
 			}
 		});
 		menuEditSprites.setMnemonic('S');
+		menuEditSprites.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+		        KeyEvent.CTRL_MASK));
 		menuConfig.add(menuEditSprites);
+		menuConfig.setMnemonic('C');
 
 		menuBar.add(menuFichier);
 		menuBar.add(menuConfig);

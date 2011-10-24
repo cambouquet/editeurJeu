@@ -15,6 +15,6 @@ public interface SelectionOngletModelRequetes
 
 	public Enumeration<String> getNomsCategories();
 
-	public ArrayList<ElementDeSelection> getCategorieElements(
+	public ArrayList<SelectionElement> getCategorieElements(
 	        String nomCategorie);
 }

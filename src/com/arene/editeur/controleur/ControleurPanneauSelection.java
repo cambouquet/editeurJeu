@@ -2,28 +2,74 @@ package com.arene.editeur.controleur;
 
 import java.util.ArrayList;
 
-import com.arene.editeur.modele.SelectionOngletModel;
-import com.arene.editeur.modele.SelectionOngletModelRequetes;
+import com.arene.editeur.modele.SelectionCategorie;
+import com.arene.editeur.vue.PanneauSelection;
 
 public class ControleurPanneauSelection
 {
-
-	private ArrayList<SelectionOngletModel> onglets = new ArrayList<SelectionOngletModel>();
-
-
-	public void ajouterOnglet(SelectionOngletModel onglet)
+	private PanneauSelection panneauSelection;
+	private ArrayList<SelectionCategorie> categories = new ArrayList<SelectionCategorie>();
+	private SelectionCategorie categorieSelectionnee;
+	
+	public ControleurPanneauSelection()
 	{
-		onglets.add(onglet);
+		this.panneauSelection = new PanneauSelection(this);
 	}
-
-	public ArrayList<SelectionOngletModelRequetes> getOnglets()
+	
+	public void setCategories(ArrayList<SelectionCategorie> categories)
 	{
-		ArrayList<SelectionOngletModelRequetes> ongletsVue = new ArrayList<SelectionOngletModelRequetes>();
-		for (SelectionOngletModel onglet : onglets)
+		this.categories = categories;
+	}
+	
+	public void addCategorie(SelectionCategorie categorie)
+	{
+		if (!categories.contains(categorie))
 		{
-			ongletsVue.add(onglet);
+			this.categories.add(categorie);
 		}
-		return ongletsVue;
 	}
 
+	public void rmvCategorie(SelectionCategorie categorie)
+	{
+		if (categories.contains(categorie))
+		{
+			this.categories.remove(categorie);
+		}
+	}
+	
+	public PanneauSelection getPanneau()
+	{
+		return this.panneauSelection;
+	}
+	
+	public int getNbreCategories()
+	{
+		return categories.size();
+	}
+
+	public void updateCategories()
+    {
+		ArrayList<String> categoriesNoms = new ArrayList<String>();
+		
+		for (SelectionCategorie categorie : categories)
+		{
+			categoriesNoms.add(categorie.getNom());
+		}
+		
+	    panneauSelection.updateCategories(categoriesNoms);
+	    this.categorieSelectionnee = null;
+    }
+
+	public void selectionnerCategorie(String nom)
+    {
+	    for (SelectionCategorie categorie : categories)
+	    {
+	    	if (categorie.getNom() == nom)
+	    	{
+	    		categorieSelectionnee = categorie;
+	    	}
+	    }
+	    
+	    panneauSelection.afficherElements(categorieSelectionnee.getElements());
+    }
 }

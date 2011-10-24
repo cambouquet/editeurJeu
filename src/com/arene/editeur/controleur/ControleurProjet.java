@@ -1,5 +1,7 @@
 package com.arene.editeur.controleur;
 
+import java.util.HashMap;
+
 import com.arene.editeur.modele.ConfigProjet;
 import com.arene.editeur.vue.EditeurSprites;
 
@@ -33,10 +35,16 @@ public class ControleurProjet
 	 * @return
 	 * 		La configuration du projet créé.
 	 */
-	public ConfigProjet creerProjet(String nomProjet, String nomJeu)
+	public ConfigProjet creerProjet(String[] parametres)
 	{
-		configProjet = new ConfigProjet(nomProjet);
-		configProjet.nouvelleConfig(nomJeu);
+		configProjet = new ConfigProjet(parametres[0]);
+		
+		HashMap<String, String> config = new HashMap<String, String>();
+		
+		config.put("nomJeu", parametres[1]);
+		config.put("hauteurCase", parametres[2]);
+		config.put("largeurCase", parametres[3]);
+		configProjet.nouvelleConfig(config);
 		
 		return configProjet;
 	}
@@ -74,8 +82,7 @@ public class ControleurProjet
 	 */
 	public void lancerEditeurSprites()
     {
-		ControleurEditeurSprites ctrlEditeurSprites = new ControleurEditeurSprites(configProjet.getDossierProjet());
-		EditeurSprites editeurSprites = new EditeurSprites(ctrlEditeurSprites);
-		editeurSprites.setVisible(true);
+		ControleurEditeurSprites ctrlEditeurSprites = new ControleurEditeurSprites(configProjet);
+		ctrlEditeurSprites.afficherEditeur();	
     }
 }

@@ -2,8 +2,11 @@ package com.arene.editeur.modele;
 
 import java.awt.Image;
 
-public interface ElementDeSelection
+import javax.swing.ImageIcon;
+
+public interface SelectionElement
 {
 	public Image getImage();
 	public String getNom();
+	public ImageIcon getIcone();
 }

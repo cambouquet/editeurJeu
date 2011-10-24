@@ -1,5 +1,6 @@
 package com.arene.editeur.vue;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,9 +68,17 @@ public class EditeurSprites extends JFrame
 		this.ctrlEditeurSprites = ctrlEditeurSprites;
 		initFenetre();
 		initMenu();
-		this.panneauSelection = this.ctrlEditeurSprites.creerPanneauSelection();
-		this.add(panneauSelection);
+		initPanneaux();
 	}
+
+
+	private void initPanneaux()
+    {
+		this.panneauSelection = this.ctrlEditeurSprites.creerPanneauSelection();
+		
+		this.getContentPane().setLayout(new BorderLayout());
+		this.getContentPane().add(panneauSelection, BorderLayout.NORTH);
+    }
 
 
 	/**
@@ -78,7 +87,7 @@ public class EditeurSprites extends JFrame
 	private void initFenetre()
 	{
 		this.setTitle("Éditeur de sprites");
-		this.setSize(new Dimension(400, 400));
+		this.setSize(new Dimension(600, 600));
 		this.setMinimumSize(new Dimension(400, 400));
 		this.setLocationRelativeTo(this.getParent());
 	}
@@ -121,10 +130,5 @@ public class EditeurSprites extends JFrame
 		menuBar.add(menuFichier);
 
 		this.setJMenuBar(menuBar);
-	}
-
-	private void creerPanneauSelection()
-	{
-		
 	}
 }

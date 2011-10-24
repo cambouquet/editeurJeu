@@ -2,6 +2,7 @@ package com.arene.editeur.modele;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import com.arene.editeur.utils.file.FileTools;
@@ -92,10 +93,10 @@ public class ConfigProjet implements ConfigProjetRequetes
 	/**
 	 * Créé une nouvelle configuration pour un nouveau projet.
 	 * 
-	 * @param nomJeu
+	 * @param config
 	 * @return true - La configuration a été correctement crée.
 	 */
-	public boolean nouvelleConfig(String nomJeu)
+	public boolean nouvelleConfig(HashMap<String, String> config)
 	{
 		boolean creationOk = true;
 
@@ -109,8 +110,16 @@ public class ConfigProjet implements ConfigProjetRequetes
 			// Création du fichier de configuration et enregistrement des
 			// données
 			File configFile = new File(cheminRacine + "/config.txt");
-			prop.setProperty("nomJeu", nomJeu);
+			
+			for (String key : config.keySet())
+			{
+				prop.setProperty(key, config.get(key));
+			}
+			
 			FileTools.saveConfig(configFile, prop);
+			
+			// création de la structure du dossier
+			verifierStructure();
 		}
 		catch (IOException e)
 		{
@@ -121,6 +130,24 @@ public class ConfigProjet implements ConfigProjetRequetes
 
 		return creationOk;
 	}
+
+	private void verifierStructure()
+    {
+	    // Vérification de la présence du dossier images
+        try
+        {
+	        File dossierImages = new File(dossierProjet.getCanonicalPath() + "/images");
+	        if (!dossierImages.exists())
+	        {
+	        	dossierImages.mkdir();
+	        }
+        }
+        catch (IOException e)
+        {
+        	System.err
+	        .println("Erreur lors de l'accèss au chemin du dossier projet dans ConfigProjet.verifierStructure().");
+        }
+    }
 
 	/**
 	 * Ouvre la configuration d'un projet existant.
@@ -139,6 +166,7 @@ public class ConfigProjet implements ConfigProjetRequetes
 			File configFile = new File(cheminRacine + "/config.txt");
 
 			prop = FileTools.readConfig(configFile);
+			verifierStructure();
 		}
 		catch (IOException e)
 		{
@@ -159,5 +187,15 @@ public class ConfigProjet implements ConfigProjetRequetes
 	public File getDossierProjet()
 	{
 		return dossierProjet;
+	}
+
+	public int getHauteur()
+    {
+	    return new Integer(prop.getProperty("hauteurCase", "32"));
+    }
+
+	public int getLargeur()
+	{
+		return new Integer(prop.getProperty("largeurCase", "32"));
 	}
 }

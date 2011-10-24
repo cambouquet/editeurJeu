@@ -13,8 +13,8 @@ public class SelectionOngletModel implements SelectionOngletModelRequetes
 	private String nom;
 	private String description;
 	private int affichageType;
-	private Hashtable<String, ArrayList<ElementDeSelection>> elements =
-	        new Hashtable<String, ArrayList<ElementDeSelection>>();
+	private Hashtable<String, ArrayList<SelectionElement>> elements =
+	        new Hashtable<String, ArrayList<SelectionElement>>();
 
 	public SelectionOngletModel(String nom, String description)
 	{
@@ -30,7 +30,7 @@ public class SelectionOngletModel implements SelectionOngletModelRequetes
 	}
 
 	public void ajouterCategorie(String nomCategorie,
-	        ArrayList<ElementDeSelection> elements)
+	        ArrayList<SelectionElement> elements)
 	{
 		this.elements.remove(nomCategorie);
 		this.elements.put(nomCategorie, elements);
@@ -41,7 +41,7 @@ public class SelectionOngletModel implements SelectionOngletModelRequetes
 		return this.elements.keys();
 	}
 
-	public ArrayList<ElementDeSelection> getCategorieElements(
+	public ArrayList<SelectionElement> getCategorieElements(
 	        String nomCategorie)
 	{
 		return elements.get(nomCategorie);
