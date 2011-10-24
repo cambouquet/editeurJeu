@@ -3,6 +3,7 @@ package com.arene.editeur.controleur;
 import java.util.ArrayList;
 
 import com.arene.editeur.modele.SelectionCategorie;
+import com.arene.editeur.modele.SelectionElement;
 import com.arene.editeur.vue.PanneauSelection;
 
 public class ControleurPanneauSelection
@@ -71,5 +72,17 @@ public class ControleurPanneauSelection
 	    }
 	    
 	    panneauSelection.afficherElements(categorieSelectionnee.getElements());
+    }
+
+	public void selectionnerElement(String nom)
+    {
+	    SelectionElement elementSelectionne = categorieSelectionnee.getElement(nom);
+	    if (elementSelectionne != null)
+	    {
+	    	System.out.println("Élement sélectionné : " + elementSelectionne.getNom());
+	    } else
+	    {
+	    	System.err.println("Élement non trouvé : " + nom);
+	    }
     }
 }

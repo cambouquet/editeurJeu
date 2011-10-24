@@ -55,15 +55,12 @@ public class PanneauSelection extends JPanel
 		// Bordure des panneaux internes
 		jsp.setBorder(new TitledBorder(BorderFactory.createLoweredBevelBorder(), titre));
 		
-		// Taille et barres de défilement
+		// Barres de défilement
 		jsp
         .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jsp
         .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-		jsp.setMinimumSize(new Dimension(400, 120));
-		jsp.setMaximumSize(new Dimension(1024, 120));
-		
 		return jsp;
 	}
 
@@ -119,6 +116,23 @@ public class PanneauSelection extends JPanel
 	    {
 	    	JButton bElement = new JButton(element.getIcone());
 	    	bElement.setName(element.getNom());
+	    	bElement.addActionListener(new ActionListener(){
+
+				@Override
+                public void actionPerformed(ActionEvent arg0)
+                {
+					JButton boutonClique = ((JButton)arg0.getSource());
+	                if (categorieSelectionnee != null)
+	                {
+	                	categorieSelectionnee.setEnabled(true);
+	                }
+	                
+	                categorieSelectionnee = boutonClique;
+	                boutonClique.setEnabled(false);
+	                ctrlPS.selectionnerElement(boutonClique.getName());
+                }
+	    		
+	    	});
 	    	pElements.add(bElement);
 	    }
 	    

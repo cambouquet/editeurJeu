@@ -34,4 +34,18 @@ public class SelectionCategorie
 	{
 		return this.elements;
 	}
+	
+	public SelectionElement getElement(String nom)
+	{
+		SelectionElement returnElement = null;
+		for (SelectionElement element : elements)
+		{
+			if (element.getNom().equals(nom))
+			{
+				returnElement = element;
+			}
+		}
+		
+		return returnElement;
+	}
 }
