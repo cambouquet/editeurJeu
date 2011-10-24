@@ -1,6 +1,7 @@
 package com.arene.editeur.vue;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -22,6 +24,9 @@ import com.arene.editeur.modele.SelectionElement;
 public class PanneauSelection extends JPanel
 {
 	private ControleurPanneauSelection ctrlPS;
+	
+	private JScrollPane spCategories;
+	private JScrollPane spElements;
 	private JPanel pCategories = new JPanel();
 	private JPanel pElements = new JPanel();
 	private JButton categorieSelectionnee;
@@ -29,42 +34,37 @@ public class PanneauSelection extends JPanel
 	public PanneauSelection(ControleurPanneauSelection ctrlPS)
 	{
 		this.ctrlPS = ctrlPS;
-		pCategories = creerPCategories();
-		pElements = creerPElements();
 		
 		// Bordure du panneau Selection
 		this.setBorder(BorderFactory.createRaisedBevelBorder());
 		
 		this.setLayout(new BorderLayout());
+		pCategories = new JPanel();
+		pElements = new JPanel();
+		
+		spCategories = creerJSP("Catégories", pCategories);
+		spElements = creerJSP("Élements", pElements);
 		
 		verifierNbreCategories();
-		
-		this.add(pElements, BorderLayout.CENTER);
+		this.add(spElements, BorderLayout.CENTER);
 	}
 	
-	private JPanel creerPCategories()
+	private JScrollPane creerJSP(String titre, JPanel contenu)
 	{
-		JPanel panneau = initPanneau("Catégories");
-		
-		return panneau;
-	}
-	
-	private JPanel creerPElements()
-	{
-		JPanel panneau = initPanneau("Élements");
-		
-		
-		return panneau;
-	}
-	
-	private JPanel initPanneau(String titre)
-	{
-		JPanel panneau = new JPanel();
+		JScrollPane jsp = new JScrollPane(contenu);
 		// Bordure des panneaux internes
-		Border b = BorderFactory.createLoweredBevelBorder();
-		panneau.setBorder(new TitledBorder(b, titre));
+		jsp.setBorder(new TitledBorder(BorderFactory.createLoweredBevelBorder(), titre));
 		
-		return panneau;
+		// Taille et barres de défilement
+		jsp
+        .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		jsp
+        .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+		jsp.setMinimumSize(new Dimension(400, 120));
+		jsp.setMaximumSize(new Dimension(1024, 120));
+		
+		return jsp;
 	}
 
 	public void updateCategories(ArrayList<String> categories)
@@ -97,6 +97,10 @@ public class PanneauSelection extends JPanel
 	    verifierNbreCategories();
 	    pCategories.revalidate();
 	    pCategories.repaint();
+	    spCategories.revalidate();
+	    spCategories.repaint();
+	    this.revalidate();
+	    this.repaint();
 	}
 	
 	private void verifierNbreCategories()
@@ -104,7 +108,7 @@ public class PanneauSelection extends JPanel
 		int nbreCategories = ctrlPS.getNbreCategories();
 		if (nbreCategories > 1)
 		{
-			this.add(pCategories, BorderLayout.NORTH);
+			this.add(spCategories, BorderLayout.NORTH);
 		}
 	}
 
@@ -120,5 +124,9 @@ public class PanneauSelection extends JPanel
 	    
 	    pElements.revalidate();
 	    pElements.repaint();
+	    spElements.revalidate();
+	    spElements.repaint();
+	    this.revalidate();
+	    this.repaint();
     }
 }
