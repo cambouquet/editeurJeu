@@ -52,8 +52,15 @@ public class EditeurSprites extends JFrame
 	 */
 	private JMenuItem menuQuit = new JMenuItem("Quitter");
 
-	// Elements de la fenêtre
+	/**
+	 * Sélection du sprite
+	 */
 	private PanneauSelection panneauSelection;
+
+	/**
+	 * Sélection du sprite
+	 */
+	private ESSpriteCarac panneauCarac;
 	
 	/**
 	 * Créer une nouvelle vue pour l'éditeur de sprites.
@@ -75,9 +82,11 @@ public class EditeurSprites extends JFrame
 	private void initPanneaux()
     {
 		this.panneauSelection = this.ctrlEditeurSprites.creerPanneauSelection();
+		this.panneauCarac = this.ctrlEditeurSprites.creerPanneauCarac();
 		
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(panneauSelection, BorderLayout.NORTH);
+		this.getContentPane().add(panneauCarac, BorderLayout.CENTER);
     }
 
 

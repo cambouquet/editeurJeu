@@ -2,12 +2,16 @@ package com.arene.editeur.controleur;
 
 import java.util.ArrayList;
 
+import javax.swing.event.EventListenerList;
+
+import com.arene.editeur.listener.SelectionElementListener;
 import com.arene.editeur.modele.SelectionCategorie;
 import com.arene.editeur.modele.SelectionElement;
 import com.arene.editeur.vue.PanneauSelection;
 
 public class ControleurPanneauSelection
 {
+	private final EventListenerList listeners = new EventListenerList();
 	private PanneauSelection panneauSelection;
 	private ArrayList<SelectionCategorie> categories = new ArrayList<SelectionCategorie>();
 	private SelectionCategorie categorieSelectionnee;
@@ -79,10 +83,29 @@ public class ControleurPanneauSelection
 	    SelectionElement elementSelectionne = categorieSelectionnee.getElement(nom);
 	    if (elementSelectionne != null)
 	    {
-	    	System.out.println("Élement sélectionné : " + elementSelectionne.getNom());
+	    	fireElementSelectionne(elementSelectionne);
 	    } else
 	    {
 	    	System.err.println("Élement non trouvé : " + nom);
 	    }
     }
+	
+	public void addSelectionElementListener(SelectionElementListener listener)
+	{
+		listeners.add(SelectionElementListener.class, listener);
+	}
+	
+	public void rmvSelectionElementListener(SelectionElementListener listener)
+	{
+		listeners.remove(SelectionElementListener.class, listener);
+	}
+	
+	private void fireElementSelectionne(SelectionElement elementSel)
+	{
+		SelectionElementListener[] SEListeners = listeners.getListeners(SelectionElementListener.class);
+		for (SelectionElementListener listener : SEListeners)
+		{
+			listener.elementSelectionne(elementSel);
+		}
+	}
 }

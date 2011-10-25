@@ -131,6 +131,14 @@ public class ConfigProjet implements ConfigProjetRequetes
 		return creationOk;
 	}
 
+	/**
+	 * Vérifier la structure du dossier projet.
+	 * 
+	 * Le dossier de configuration doit contenir :
+	 * images/
+	 * 
+	 * Si les fichiers ou dossiers n'existent pas, ils sont créés.
+	 */
 	private void verifierStructure()
     {
 	    // Vérification de la présence du dossier images
