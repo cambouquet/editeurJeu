@@ -108,4 +108,9 @@ public class ControleurPanneauSelection
 			listener.elementSelectionne(elementSel);
 		}
 	}
+
+	public SelectionCategorie getCategorieSelectionnee()
+    {
+	    return this.categorieSelectionnee;
+    }
 }

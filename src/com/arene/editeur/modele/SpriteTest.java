@@ -16,13 +16,25 @@ public class SpriteTest implements SelectionElement
 	private int largeur;
 	private int hauteur;
 	private BufferedImage imageAffichee;
+	private String code;
+	
+	private String type = "";
 	
 	public SpriteTest(File file, int hauteur, int largeur)
 	{
 		try
         {
 	        image = ImageIO.read(file);
-	        nom = file.getName();
+	        String[] fileName = file.getName().split("_|\\.");
+	        if (fileName.length == 3)
+	        {
+	        	nom = fileName[1];
+	        	code = fileName[0];
+	        } else
+	        {
+	        	nom = fileName[0];
+	        	code = "00000";
+	        }
         }
         catch (IOException e)
         {
@@ -31,7 +43,7 @@ public class SpriteTest implements SelectionElement
 		
 		this.hauteur = hauteur;
 		this.largeur = largeur;
-		imageAffichee = new BufferedImage(largeur, hauteur, BufferedImage.TYPE_INT_ARGB);
+		imageAffichee = new BufferedImage(this.largeur, this.hauteur, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2D = imageAffichee.createGraphics();
 		g2D.drawImage(image, 0, 0, image.getWidth(null), image.getHeight(null), null);
 	}
@@ -51,8 +63,21 @@ public class SpriteTest implements SelectionElement
 	@Override
     public ImageIcon getIcone()
     {
-		
 	    return new ImageIcon(imageAffichee);
     }
+	
+	public String getCode()
+	{
+		return this.code;
+	}
 
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+	
+	public String getType()
+	{
+		return this.type;
+	}
 }

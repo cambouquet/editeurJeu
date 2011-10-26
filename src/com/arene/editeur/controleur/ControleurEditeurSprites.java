@@ -2,12 +2,14 @@ package com.arene.editeur.controleur;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.arene.editeur.listener.SelectionElementListener;
 import com.arene.editeur.modele.ConfigProjet;
 import com.arene.editeur.modele.SelectionCategorie;
 import com.arene.editeur.modele.SelectionElement;
 import com.arene.editeur.modele.SpriteTest;
+import com.arene.editeur.utils.file.FileTools;
 import com.arene.editeur.vue.ESSpriteCarac;
 import com.arene.editeur.vue.EditeurSprites;
 import com.arene.editeur.vue.PanneauSelection;
@@ -72,6 +74,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		File dossierImages = new File(dossierProjet + "/images");
 		File[] dossiers = dossierImages.listFiles();
 		
+		categories.add(new SelectionCategorie("nouveau", creerSprites(dossierImages)));
 		for (int i = 0 ; i < dossiers.length ; i ++)
 		{
 			if (dossiers[i].isDirectory())
@@ -79,11 +82,10 @@ public class ControleurEditeurSprites implements SelectionElementListener
 				String[] elementsNom = dossiers[i].getName().split("_");
 				if (elementsNom.length == 2)
 				{
-					categories.add(new SelectionCategorie(elementsNom[1], new Integer(elementsNom[0]), creerSprites(dossiers[i])));
+					categories.add(new SelectionCategorie(elementsNom[1], elementsNom[0], creerSprites(dossiers[i])));
 				}			
 			}
 		}
-		categories.add(new SelectionCategorie("nouveau", creerSprites(dossierImages)));
 		
 		ctrlPS.setCategories(categories);
 		
@@ -105,7 +107,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		File[] images = dossier.listFiles();
 		for (File image : images)
 		{
-			if (image.isFile())
+			if (image.isFile() && !image.getName().endsWith(".sprconf"))
 			{
 				elements.add(new SpriteTest(image, configProjet.getHauteur(), configProjet.getLargeur()));
 			}
@@ -116,7 +118,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 	
 	public ESSpriteCarac creerPanneauCarac()
 	{
-		ctrlESSC = new ControleurESSpriteCarac();
+		ctrlESSC = new ControleurESSpriteCarac(dossierProjet);
 		return ctrlESSC.getPanneau();
 	}
 	
@@ -124,6 +126,14 @@ public class ControleurEditeurSprites implements SelectionElementListener
     public void elementSelectionne(SelectionElement element)
     {
 	    this.spriteSelectionne = (SpriteTest) element;
+	    SelectionCategorie categorie = ctrlPS.getCategorieSelectionnee();
+	    String nomCategorie = "";
+	    if (!categorie.getId().equals("0"))
+	    {
+	    	nomCategorie += categorie.getId() + "_" + categorie.getNom();
+	    	Properties prop = FileTools.readConfig(new File(dossierProjet.getPath() + "/images" + "/" + nomCategorie + "/" + spriteSelectionne.getCode() + ".sprconf"));
+	    	spriteSelectionne.setType(prop.getProperty("type", ""));
+	    }
 	    ctrlESSC.selectionnerSprite(this.spriteSelectionne);
     }
 }

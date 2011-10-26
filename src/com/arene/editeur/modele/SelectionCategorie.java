@@ -6,9 +6,9 @@ public class SelectionCategorie
 {
 	private ArrayList<SelectionElement> elements = new ArrayList<SelectionElement>();
 	private String nom;
-	private int id = 0;
+	private String id = "0";
 	
-	public SelectionCategorie(String nom, int id, ArrayList<SelectionElement> elements)
+	public SelectionCategorie(String nom, String id, ArrayList<SelectionElement> elements)
 	{
 		this.nom = nom;
 		this.id = id;
@@ -17,7 +17,7 @@ public class SelectionCategorie
 	
 	public SelectionCategorie(String nom, ArrayList<SelectionElement> elements)
 	{
-		this(nom, 0, elements);
+		this(nom, "0", elements);
 	}
 	
 	public String getNom()
@@ -25,7 +25,7 @@ public class SelectionCategorie
 		return this.nom;
 	}
 	
-	public int getId()
+	public String getId()
 	{
 		return this.id;
 	}

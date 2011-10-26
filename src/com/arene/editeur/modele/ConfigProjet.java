@@ -136,6 +136,8 @@ public class ConfigProjet implements ConfigProjetRequetes
 	 * 
 	 * Le dossier de configuration doit contenir :
 	 * images/
+	 * config/
+	 * 			types.conf
 	 * 
 	 * Si les fichiers ou dossiers n'existent pas, ils sont créés.
 	 */
@@ -144,18 +146,51 @@ public class ConfigProjet implements ConfigProjetRequetes
 	    // Vérification de la présence du dossier images
         try
         {
-	        File dossierImages = new File(dossierProjet.getCanonicalPath() + "/images");
-	        if (!dossierImages.exists())
-	        {
-	        	dossierImages.mkdir();
-	        }
+        	String cheminDossierProjet = dossierProjet.getCanonicalPath();
+        	verifierDossier(cheminDossierProjet + "/images");
+        	verifierDossier(cheminDossierProjet + "/config");
+        	verifierFichier(cheminDossierProjet + "/config" + "/types.config");
         }
         catch (IOException e)
         {
         	System.err
-	        .println("Erreur lors de l'accèss au chemin du dossier projet dans ConfigProjet.verifierStructure().");
+	        .println("Erreur lors de l'accès au chemin du dossier projet dans ConfigProjet.verifierStructure().");
         }
     }
+	
+	private void verifierFichier(String chemin)
+    {
+	    File fichier = new File(chemin);
+	    if (!fichier.exists())
+	    {
+	    	try
+            {
+	            fichier.createNewFile();
+            }
+            catch (IOException e)
+            {
+            	System.err
+            	.println("Erreur lors de l'accès au chemin du dossier projet dans ConfigProjet.verifierFichier().");
+            }
+	    }
+    }
+
+	/**
+	 * Vérifier la présence d'un dossier.
+	 * 
+	 * Si le dossier est absent, il est créé.
+	 * 
+	 * @param chemin
+	 * 			Le chemin du dossier à vérifier.
+	 */
+	private void verifierDossier(String chemin)
+	{
+		File dossierImages = new File(chemin);
+        if (!dossierImages.exists())
+        {
+        	dossierImages.mkdir();
+        }
+	}
 
 	/**
 	 * Ouvre la configuration d'un projet existant.

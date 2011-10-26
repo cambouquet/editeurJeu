@@ -3,12 +3,18 @@ package com.arene.editeur.vue;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import com.arene.editeur.controleur.ControleurESSpriteCarac;
 import com.arene.editeur.modele.SpriteTest;
 
 public class ESSpriteCarac extends JPanel
@@ -17,25 +23,44 @@ public class ESSpriteCarac extends JPanel
 	private JScrollPane jsVisualisation;
 	private ImagePanel pVisualisation;
 	private JPanel pProp;
+	private JLabel lCode;
+	private JComboBox cbType;
+	private ControleurESSpriteCarac ctrlESSC;
 	
 	private final static int VISUALISATION_HAUTEUR = 300;
 	private final static int VISUALISATION_LARGEUR = 300;
 	
-	public ESSpriteCarac()
+	public ESSpriteCarac(ControleurESSpriteCarac ctrlESSC)
 	{
+		this.ctrlESSC = ctrlESSC;
 		this.setBorder(new TitledBorder(BorderFactory.createRaisedBevelBorder(), "Caractéristiques"));
 		
 		this.setLayout(new BorderLayout());
 		
-		this.add(creerPanneauVisualisation(), BorderLayout.CENTER);
+		this.add(creerPanneauVisualisation(), BorderLayout.EAST);
 		this.add(creerPanneauInfos(), BorderLayout.WEST);
 	}
 
 	private Component creerPanneauInfos()
     {
 	    pProp = new JPanel();
-	    pProp.setBorder(new TitledBorder(BorderFactory.createLoweredBevelBorder(), "Propriétés"));
+	    pProp.setLayout(new GridBagLayout());
 	    
+	    lCode = new JLabel("Code : Nom");
+	    pProp.add(lCode, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
+		        GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(
+		                5, 10, 25, 10), 0, 0));
+
+	    JLabel lType = new JLabel("Type");
+	    pProp.add(lType, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+		        GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(
+		                5, 10, 25, 10), 0, 0));
+	    
+	    cbType = new JComboBox();
+	    ctrlESSC.getTypes(cbType);
+	    pProp.add(cbType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+		        GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(
+		                5, 10, 25, 10), 0, 0));
 	    
 	    return pProp;
     }
@@ -57,6 +82,10 @@ public class ESSpriteCarac extends JPanel
     {
 	    this.sprite = sprite;
 	    pVisualisation.setImage(sprite.getImage());
+	    lCode.setText(sprite.getCode() + " : " + sprite.getNom());
+	    
+	    cbType.setSelectedItem(sprite.getType());
+	    
 	    revalidate();
 	    repaint();
     }
