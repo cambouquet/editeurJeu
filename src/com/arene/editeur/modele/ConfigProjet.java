@@ -3,6 +3,7 @@ package com.arene.editeur.modele;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -151,8 +152,9 @@ public class ConfigProjet implements ConfigProjetRequetes
         	verifierDossier(cheminDossierProjet + "/images");
         	verifierDossier(cheminDossierProjet + "/config");
         	verifierFichier(cheminDossierProjet + "/config" + "/types.config");
-        	String[] types = {};
-        	FileTools.readConfig(new File(cheminDossierProjet + "/config" + "/types.config")).values().toArray(types);
+        	Collection<Object> typesCollection = FileTools.readConfig(new File(cheminDossierProjet + "/config" + "/types.config")).values();
+        	String[] types = new String[typesCollection.size()];
+        	typesCollection.toArray(types);
         	verifierDossiers(cheminDossierProjet + "/images", types);
         }
         catch (IOException e)
