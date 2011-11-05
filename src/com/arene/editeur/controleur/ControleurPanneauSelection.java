@@ -58,6 +58,7 @@ public class ControleurPanneauSelection
 	        SelectionCategorie categorieSelectionnee)
 	{
 		this.categories = categories;
+		this.updateCategories();
 		if (categories.contains(categorieSelectionnee))
 		{
 			this.selectionnerCategorie(categorieSelectionnee.getNom());
@@ -66,7 +67,6 @@ public class ControleurPanneauSelection
 		{
 			this.categorieSelectionnee = null;
 		}
-		this.updateCategories();
 	}
 
 	public void updateCategories()
@@ -94,7 +94,8 @@ public class ControleurPanneauSelection
 					categorieExiste = true;
 				}
 			}
-		} else
+		}
+		else
 		{
 			this.categorieSelectionnee = null;
 			panneauSelection.deselectionnerCategories();
@@ -102,8 +103,7 @@ public class ControleurPanneauSelection
 
 		if (categorieExiste)
 		{
-			panneauSelection.afficherElements(categorieSelectionnee
-			        .getElements());
+			panneauSelection.selectionnerCategorie(categorieSelectionnee);
 		}
 		return categorieExiste;
 	}

@@ -1,19 +1,15 @@
 package com.arene.editeur.vue;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import com.arene.editeur.controleur.ControleurPanneauSelection;
@@ -110,9 +106,24 @@ public class PanneauSelection extends JPanel
 		}
 	}
 
-	public void afficherElements(ArrayList<SelectionElement> elements)
+	public void selectionnerCategorie(SelectionCategorie categorie)
     {
 		pElements.removeAll();
+		
+		Component[] composantspCategories = pCategories.getComponents();
+		for (Component composant : composantspCategories)
+		{
+			if (composant instanceof JButton)
+			{
+				JButton bouton = ((JButton) composant);
+				if (bouton.getText().equalsIgnoreCase(categorie.getNom()) && bouton.isEnabled())
+				{
+					((JButton) composant).doClick();
+				}
+			}
+		}
+		
+		ArrayList<SelectionElement> elements = categorie.getElements();
 	    for (SelectionElement element : elements)
 	    {
 	    	JButton bElement = new JButton(element.getIcone());
@@ -149,6 +160,6 @@ public class PanneauSelection extends JPanel
     {
 		this.categorieSelectionnee.setEnabled(true);
 		this.categorieSelectionnee = null;
-		this.afficherElements(null);
+		this.selectionnerCategorie(null);
     }
 }
