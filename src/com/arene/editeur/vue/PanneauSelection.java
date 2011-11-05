@@ -30,6 +30,7 @@ public class PanneauSelection extends JPanel
 	private JPanel pCategories = new JPanel();
 	private JPanel pElements = new JPanel();
 	private JButton categorieSelectionnee;
+	private JButton elementSelectionnee;
 	
 	public PanneauSelection(ControleurPanneauSelection ctrlPS)
 	{
@@ -122,12 +123,12 @@ public class PanneauSelection extends JPanel
                 public void actionPerformed(ActionEvent arg0)
                 {
 					JButton boutonClique = ((JButton)arg0.getSource());
-	                if (categorieSelectionnee != null)
+	                if (elementSelectionnee != null)
 	                {
-	                	categorieSelectionnee.setEnabled(true);
+	                	elementSelectionnee.setEnabled(true);
 	                }
 	                
-	                categorieSelectionnee = boutonClique;
+	                elementSelectionnee = boutonClique;
 	                boutonClique.setEnabled(false);
 	                ctrlPS.selectionnerElement(boutonClique.getName());
                 }
