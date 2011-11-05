@@ -34,6 +34,7 @@ public class ESSpriteCarac extends JPanel
 	
 	private final static int VISUALISATION_HAUTEUR = 300;
 	private final static int VISUALISATION_LARGEUR = 300;
+	private final static String LCODE_DEFAUT = "code : nom";
 	
 	public ESSpriteCarac(ControleurESSpriteCarac ctrlESSC)
 	{
@@ -64,7 +65,7 @@ public class ESSpriteCarac extends JPanel
 	    pProp = new JPanel();
 	    pProp.setLayout(new GridBagLayout());
 	    
-	    lCode = new JLabel("Code : Nom");
+	    lCode = new JLabel(LCODE_DEFAUT);
 	    pProp.add(lCode, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
 		        GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(
 		                5, 10, 25, 10), 0, 0));
@@ -112,11 +113,22 @@ public class ESSpriteCarac extends JPanel
 	public void selectionnerSprite(SpriteTest sprite)
     {
 	    this.sprite = sprite;
+	    
+	    if (sprite != null)
+	    {
 	    pVisualisation.setImage(sprite.getImage());
 	    lCode.setText(sprite.getCode() + " : " + sprite.getNom());
 	    
 	    cbType.setSelectedItem(sprite.getType());
 	    bSauver.setEnabled(true);
+	    } else
+	    {
+	    	pVisualisation.setImage(null);
+	    	lCode.setText(LCODE_DEFAUT);
+	    	
+	    	cbType.setSelectedItem("");
+	    	bSauver.setEnabled(false);
+	    }
 	    revalidate();
 	    repaint();
     }

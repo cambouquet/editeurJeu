@@ -176,5 +176,6 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		}
 		
 		ctrlPS.updateCategories(categories, categorieSelectionnee);
+		ctrlESSC.selectionnerSprite(null, null);
 	}
 }
