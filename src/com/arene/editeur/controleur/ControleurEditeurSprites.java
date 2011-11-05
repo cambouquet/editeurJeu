@@ -155,8 +155,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 			spriteSelectionne.setType(prop.getProperty("type", ""));
 		}
 		cheminImage +=
-		        spriteSelectionne.getCode() + "_" + spriteSelectionne.getNom()
-		                + ".png";
+		        spriteSelectionne.getFichierNomOrigine();
 		ctrlESSC.selectionnerSprite(this.spriteSelectionne, new File(
 		        cheminImage));
 	}

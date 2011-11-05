@@ -90,10 +90,16 @@ public class SpriteTest implements SelectionElement
 		return this.proprietes;
 	}
 	
-	public String getFichierNom()
+	public String getFichierNomCree()
 	{
 		String fichierNom = this.code + "_" + this.getType() + this.code.substring(2);
+		
 		return fichierNom;
+	}
+	
+	public String getFichierNomOrigine()
+	{
+		return this.fichierNomOrigine;
 	}
 
 	public void setCode(String newCode)

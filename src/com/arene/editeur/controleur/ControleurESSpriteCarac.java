@@ -35,7 +35,6 @@ public class ControleurESSpriteCarac
 			if (fichierConfig.exists())
 			{
 				types = FileTools.readConfig(fichierConfig);
-				System.out.println("types lus");
 			}
 		}
 		catch (IOException e)
@@ -101,11 +100,11 @@ public class ControleurESSpriteCarac
 			{
 				deplacement =
 				        FileTools.deplacer(fichierImage, new File(cheminDossier
-				                + sprite.getFichierNom() + ".png"));
+				                + sprite.getFichierNomCree() + ".png"));
 				if (deplacement)
 				{
 					FileTools.saveConfig(
-					        new File(cheminDossier + sprite.getFichierNom()
+					        new File(cheminDossier + sprite.getFichierNomCree()
 					                + ".sprconf"), sprite.getProprietes());
 				}
 			}
