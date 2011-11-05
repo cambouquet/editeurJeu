@@ -2,6 +2,7 @@ package com.arene.editeur.controleur;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import com.arene.editeur.listener.SelectionElementListener;
@@ -75,18 +76,21 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		File[] dossiers = dossierImages.listFiles();
 		
 		categories.add(new SelectionCategorie("nouveau", creerSprites(dossierImages)));
-		for (int i = 0 ; i < dossiers.length ; i ++)
-		{
-			if (dossiers[i].isDirectory())
-			{
-				String[] elementsNom = dossiers[i].getName().split("_");
-				if (elementsNom.length == 2)
-				{
-					categories.add(new SelectionCategorie(elementsNom[1], elementsNom[0], creerSprites(dossiers[i])));
-				}			
-			}
-		}
+		Properties types = FileTools.readConfig(new File(dossierProjet.getPath() + "/config" + "/types.config"));
+		Iterator it = types.values().iterator();
 		
+		while (it.hasNext())
+		{
+			String type = (String) it.next();
+			
+			String[] elementsNom = type.split("_");
+			
+			if (elementsNom.length == 2)
+			{
+				categories.add(new SelectionCategorie(elementsNom[1], elementsNom[0], creerSprites(new File(dossierImages.getPath() + "/" + type))));
+			}			
+		}
+				
 		ctrlPS.setCategories(categories);
 		
 		ctrlPS.updateCategories();
@@ -128,12 +132,16 @@ public class ControleurEditeurSprites implements SelectionElementListener
 	    this.spriteSelectionne = (SpriteTest) element;
 	    SelectionCategorie categorie = ctrlPS.getCategorieSelectionnee();
 	    String nomCategorie = "";
+	    String cheminImage = dossierProjet.getPath() + "/images" + "/";
 	    if (!categorie.getId().equals("0"))
 	    {
 	    	nomCategorie += categorie.getId() + "_" + categorie.getNom();
-	    	Properties prop = FileTools.readConfig(new File(dossierProjet.getPath() + "/images" + "/" + nomCategorie + "/" + spriteSelectionne.getCode() + ".sprconf"));
+	    	cheminImage += nomCategorie + "/";
+	    	
+	    	Properties prop = FileTools.readConfig((FileTools.getFileMatching(new File(cheminImage), spriteSelectionne.getCode() + ".*.sprconf")));
 	    	spriteSelectionne.setType(prop.getProperty("type", ""));
 	    }
-	    ctrlESSC.selectionnerSprite(this.spriteSelectionne);
+	    cheminImage +=  spriteSelectionne.getCode() + "_" + spriteSelectionne.getNom() + ".png";
+	    ctrlESSC.selectionnerSprite(this.spriteSelectionne, new File(cheminImage));
     }
 }

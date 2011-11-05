@@ -2,6 +2,7 @@ package com.arene.editeur.modele;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -150,6 +151,10 @@ public class ConfigProjet implements ConfigProjetRequetes
         	verifierDossier(cheminDossierProjet + "/images");
         	verifierDossier(cheminDossierProjet + "/config");
         	verifierFichier(cheminDossierProjet + "/config" + "/types.config");
+        	
+        	String[] types = new String[100];
+        	FileTools.readConfig(new File(cheminDossierProjet + "/config" + "/types.config")).values().toArray(types);
+        	verifierDossiers(cheminDossierProjet + "/images", types);
         }
         catch (IOException e)
         {
@@ -158,6 +163,14 @@ public class ConfigProjet implements ConfigProjetRequetes
         }
     }
 	
+	private void verifierDossiers(String cheminDossierParent, String[] types)
+    {
+	    for (int i = 0 ; i < types.length ; i ++)
+	    {
+	    	verifierDossier(cheminDossierParent + "/" + types[i]);
+	    }
+    }
+
 	private void verifierFichier(String chemin)
     {
 	    File fichier = new File(chemin);

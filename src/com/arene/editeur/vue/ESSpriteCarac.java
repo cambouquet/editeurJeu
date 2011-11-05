@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +28,8 @@ public class ESSpriteCarac extends JPanel
 	private JPanel pProp;
 	private JLabel lCode;
 	private JComboBox cbType;
+	private JButton bSauver;
+	
 	private ControleurESSpriteCarac ctrlESSC;
 	
 	private final static int VISUALISATION_HAUTEUR = 300;
@@ -39,6 +44,19 @@ public class ESSpriteCarac extends JPanel
 		
 		this.add(creerPanneauVisualisation(), BorderLayout.EAST);
 		this.add(creerPanneauInfos(), BorderLayout.WEST);
+		
+		bSauver = new JButton("Sauvegarder");
+		bSauver.setEnabled(false);
+		bSauver.addActionListener(new ActionListener(){
+
+			@Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+	            ESSpriteCarac.this.ctrlESSC.sauverProprietes();
+            }
+			
+		});
+		this.add(bSauver, BorderLayout.SOUTH);
 	}
 
 	private Component creerPanneauInfos()
@@ -57,6 +75,19 @@ public class ESSpriteCarac extends JPanel
 		                5, 10, 25, 10), 0, 0));
 	    
 	    cbType = new JComboBox();
+	    cbType.addActionListener(new ActionListener(){
+
+			@Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+				if (sprite != null)
+				{
+					sprite.setType((String) cbType.getSelectedItem());
+				}
+				
+            }
+	    	
+	    });
 	    ctrlESSC.getTypes(cbType);
 	    pProp.add(cbType, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(
@@ -85,7 +116,7 @@ public class ESSpriteCarac extends JPanel
 	    lCode.setText(sprite.getCode() + " : " + sprite.getNom());
 	    
 	    cbType.setSelectedItem(sprite.getType());
-	    
+	    bSauver.setEnabled(true);
 	    revalidate();
 	    repaint();
     }

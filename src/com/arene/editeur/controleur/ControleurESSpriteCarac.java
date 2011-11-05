@@ -14,47 +14,156 @@ import com.arene.editeur.vue.ESSpriteCarac;
 public class ControleurESSpriteCarac
 {
 	private ESSpriteCarac pCarac;
+	private File fichierImage;
 	private File dossierProjet;
-	
+	private SpriteTest sprite;
+	private Properties types;
+
 	public ControleurESSpriteCarac(File dossierProjet)
 	{
+		this.fichierImage = null;
 		this.dossierProjet = dossierProjet;
+		types = new Properties();
+		try
+		{
+			File fichierConfig =
+			        new File(dossierProjet.getCanonicalPath()
+			                + "/config/types.config");
+
+			if (fichierConfig.exists())
+			{
+				types = FileTools.readConfig(fichierConfig);
+				System.out.println("types lus");
+			}
+		}
+		catch (IOException e)
+		{
+			System.err
+			        .println("Erreur lors de l'accèss au chemin du dossier projet dans ControleurESSpriteCarac().");
+		}
 		pCarac = new ESSpriteCarac(this);
 	}
-	
-	public void selectionnerSprite(SpriteTest spriteSelectionne)
-    {
-	    pCarac.selectionnerSprite(spriteSelectionne);
-    }
+
+	public void selectionnerSprite(SpriteTest spriteSelectionne,
+	        File fichierImage)
+	{
+		this.sprite = spriteSelectionne;
+		this.fichierImage = fichierImage;
+		pCarac.selectionnerSprite(sprite);
+	}
 
 	public ESSpriteCarac getPanneau()
-    {
-	    return this.pCarac;
-    }
+	{
+		return this.pCarac;
+	}
 
 	public void getTypes(JComboBox cbType)
-    {
+	{
 		cbType.addItem("");
-		try
-        {
-	    	File fichierConfig = new File(dossierProjet.getCanonicalPath() + "/config/types.config");
-	        	    	
-	    	if (fichierConfig.exists())
-	        {
-	        	Properties prop = FileTools.readConfig(fichierConfig);
-	        	Enumeration<Object> e = prop.elements();
-	        	while (e.hasMoreElements())
-	        	{
-	        		cbType.addItem(e.nextElement());
-	        	}
-	        	prop.values();
-	        }
-        }
-        catch (IOException e)
-        {
-        	System.err
-	        .println("Erreur lors de l'accèss au chemin du dossier projet dans ControleurESSpriteCarac.getTypes().");
-        }
-    }
+		Enumeration e = types.elements();
+		while (e.hasMoreElements())
+		{
+			cbType.addItem(((String) e.nextElement()).substring(3));
+		}
+		types.values();
+	}
 
+	public void sauverProprietes()
+	{
+		Enumeration e = types.elements();
+		String typeSprite = sprite.getType();
+		if (!typeSprite.isEmpty())
+		{
+			String typeId = "00";
+			String typeDossierNom = "";
+			while (e.hasMoreElements())
+			{
+				String type = (String) e.nextElement();
+				String typeNom = type.substring(3);
+				if (typeSprite.equals(typeNom))
+				{
+					typeId = type.substring(0, 2);
+					typeDossierNom = type;
+				}
+			}
+
+			String dernierNumero = recupererDernierNumero(typeId);
+			sprite.setCode(typeId + dernierNumero);
+			boolean deplacement = false;
+
+			String cheminDossier =
+			        dossierProjet.getPath() + "/images" + "/" + typeDossierNom
+			                + "/";
+			// déplacement du fichier
+			try
+			{
+				deplacement =
+				        FileTools.deplacer(fichierImage, new File(cheminDossier
+				                + sprite.getFichierNom() + ".png"));
+				if (deplacement)
+				{
+					FileTools.saveConfig(
+					        new File(cheminDossier + sprite.getFichierNom()
+					                + ".sprconf"), sprite.getProprietes());
+				}
+			}
+			catch (SecurityException se)
+			{
+				se.printStackTrace();
+			}
+
+			if (deplacement)
+			{
+				System.err.println("fichier sauvegardé");
+			}
+			else
+			{
+				System.err.println("erreur lors du déplacement du fichier");
+			}
+		}
+		else
+		{
+			System.err.println("Pas de type sélectionné");
+		}
+
+	}
+
+	private String recupererDernierNumero(String categorieId)
+	{
+		File dossierCategorie =
+		        FileTools.getDirectoryBeginsWith(new File(dossierProjet.getPath() + "/images"), categorieId);
+		File[] fichiers = dossierCategorie.listFiles();
+
+		String dernierNumeroStr = "001";
+		int dernierNumero = 0;
+
+		for (File fichier : fichiers)
+		{
+			if (fichier.getName().endsWith(".png"))
+			{
+				int fichierNumero =
+				        new Integer(fichier.getName().substring(2, 5));
+				if (fichierNumero > dernierNumero)
+				{
+					dernierNumero = fichierNumero;
+				}
+			}
+		}
+		dernierNumero++;
+		// Ajout des 0
+		if (dernierNumero < 10)
+		{
+			dernierNumeroStr = "00" + dernierNumero;
+		}
+		else if (dernierNumero < 100)
+		{
+			dernierNumeroStr = "0" + dernierNumero;
+		}
+		else
+		{
+			dernierNumeroStr = "" + dernierNumero;
+		}
+
+		return dernierNumeroStr;
+	}
 }
