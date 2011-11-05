@@ -143,4 +143,11 @@ public class PanneauSelection extends JPanel
 	    this.revalidate();
 	    this.repaint();
     }
+
+	public void deselectionnerCategories()
+    {
+		this.categorieSelectionnee.setEnabled(true);
+		this.categorieSelectionnee = null;
+		this.afficherElements(null);
+    }
 }

@@ -151,8 +151,7 @@ public class ConfigProjet implements ConfigProjetRequetes
         	verifierDossier(cheminDossierProjet + "/images");
         	verifierDossier(cheminDossierProjet + "/config");
         	verifierFichier(cheminDossierProjet + "/config" + "/types.config");
-        	
-        	String[] types = new String[100];
+        	String[] types = {};
         	FileTools.readConfig(new File(cheminDossierProjet + "/config" + "/types.config")).values().toArray(types);
         	verifierDossiers(cheminDossierProjet + "/images", types);
         }
@@ -163,11 +162,11 @@ public class ConfigProjet implements ConfigProjetRequetes
         }
     }
 	
-	private void verifierDossiers(String cheminDossierParent, String[] types)
+	private void verifierDossiers(String cheminDossierParent, String[] nomDossiers)
     {
-	    for (int i = 0 ; i < types.length ; i ++)
+	    for (int i = 0 ; i < nomDossiers.length ; i ++)
 	    {
-	    	verifierDossier(cheminDossierParent + "/" + types[i]);
+	    	verifierDossier(cheminDossierParent + "/" + nomDossiers[i]);
 	    }
     }
 

@@ -13,15 +13,17 @@ import com.arene.editeur.vue.ESSpriteCarac;
 
 public class ControleurESSpriteCarac
 {
+	private ControleurEditeurSprites parentControleur;
 	private ESSpriteCarac pCarac;
 	private File fichierImage;
 	private File dossierProjet;
 	private SpriteTest sprite;
 	private Properties types;
 
-	public ControleurESSpriteCarac(File dossierProjet)
+	public ControleurESSpriteCarac(File dossierProjet, ControleurEditeurSprites parentControleur)
 	{
 		this.fichierImage = null;
+		this.parentControleur = parentControleur;
 		this.dossierProjet = dossierProjet;
 		types = new Properties();
 		try
@@ -120,6 +122,7 @@ public class ControleurESSpriteCarac
 			{
 				System.err.println("erreur lors du déplacement du fichier");
 			}
+			parentControleur.updateCategories();
 		}
 		else
 		{
