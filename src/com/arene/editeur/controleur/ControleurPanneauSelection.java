@@ -2,6 +2,7 @@ package com.arene.editeur.controleur;
 
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.event.EventListenerList;
 
 import com.arene.editeur.listener.SelectionElementListener;
@@ -142,8 +143,32 @@ public class ControleurPanneauSelection
 		}
 	}
 
+	private void fireElementDeselectionne(SelectionElement elementSel)
+	{
+		SelectionElementListener[] SEListeners =
+				listeners.getListeners(SelectionElementListener.class);
+		for (SelectionElementListener listener : SEListeners)
+		{
+			listener.elementDeselectionne(elementSel);
+		}
+	}
+
 	public SelectionCategorie getCategorieSelectionnee()
 	{
 		return this.categorieSelectionnee;
 	}
+
+	public void deselectionnerElement(String nom)
+    {
+		SelectionElement elementDeselectionne =
+		        categorieSelectionnee.getElement(nom);
+		if (elementDeselectionne != null)
+		{
+			fireElementDeselectionne(elementDeselectionne);
+		}
+		else
+		{
+			System.err.println("Élement non trouvé : " + nom);
+		}
+    }
 }

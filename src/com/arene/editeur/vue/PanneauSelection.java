@@ -26,7 +26,7 @@ public class PanneauSelection extends JPanel
 	private JPanel pCategories = new JPanel();
 	private JPanel pElements = new JPanel();
 	private JButton categorieSelectionnee;
-	private JButton elementSelectionnee;
+	private JButton elementSelectionne;
 	
 	public PanneauSelection(ControleurPanneauSelection ctrlPS)
 	{
@@ -73,6 +73,14 @@ public class PanneauSelection extends JPanel
 				@Override
                 public void actionPerformed(ActionEvent arg0)
                 {
+					// déselection de l'élément sélectionné
+					if (elementSelectionne != null)
+					{
+						elementSelectionne.setEnabled(true);
+						ctrlPS.deselectionnerElement(elementSelectionne.getName());
+						elementSelectionne = null;
+					}
+
 					JButton boutonClique = ((JButton)arg0.getSource());
 	                if (categorieSelectionnee != null)
 	                {
@@ -81,6 +89,7 @@ public class PanneauSelection extends JPanel
 	                
 	                categorieSelectionnee = boutonClique;
 	                boutonClique.setEnabled(false);
+	                
 	                ctrlPS.selectionnerCategorie(boutonClique.getText());
                 }
 	    		
@@ -134,12 +143,12 @@ public class PanneauSelection extends JPanel
                 public void actionPerformed(ActionEvent arg0)
                 {
 					JButton boutonClique = ((JButton)arg0.getSource());
-	                if (elementSelectionnee != null)
+	                if (elementSelectionne != null)
 	                {
-	                	elementSelectionnee.setEnabled(true);
+	                	elementSelectionne.setEnabled(true);
 	                }
 	                
-	                elementSelectionnee = boutonClique;
+	                elementSelectionne = boutonClique;
 	                boutonClique.setEnabled(false);
 	                ctrlPS.selectionnerElement(boutonClique.getName());
                 }

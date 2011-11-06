@@ -177,4 +177,11 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		ctrlPS.updateCategories(categories, categorieSelectionnee);
 		ctrlESSC.selectionnerSprite(null, null);
 	}
+
+	@Override
+    public void elementDeselectionne(SelectionElement element)
+    {
+		this.spriteSelectionne = null;
+		ctrlESSC.selectionnerSprite(null, null);
+    }
 }

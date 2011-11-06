@@ -7,4 +7,5 @@ import com.arene.editeur.modele.SelectionElement;
 public interface SelectionElementListener extends EventListener
 {
 	public void elementSelectionne(SelectionElement element);
+	public void elementDeselectionne(SelectionElement element);
 }
