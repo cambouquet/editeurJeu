@@ -18,16 +18,17 @@ public class SpriteTest implements SelectionElement
 	private int hauteur;
 	private BufferedImage imageAffichee;
 	private String code;
-	private String fichierNomOrigine;
+	private File fichierOrigine;
 	
 	private Properties proprietes;
 	
 	public SpriteTest(File file, int hauteur, int largeur)
 	{
+		this.fichierOrigine = file;
 		try
         {
 	        image = ImageIO.read(file);
-	        fichierNomOrigine = file.getName();
+	        String fichierNomOrigine = file.getName();
 	        String[] fileName = fichierNomOrigine.split("_|\\.");
 	        if (fileName.length == 3)
 	        {
@@ -97,9 +98,9 @@ public class SpriteTest implements SelectionElement
 		return fichierNom;
 	}
 	
-	public String getFichierNomOrigine()
+	public File getFichierOrigine()
 	{
-		return this.fichierNomOrigine;
+		return this.fichierOrigine;
 	}
 
 	public void setCode(String newCode)

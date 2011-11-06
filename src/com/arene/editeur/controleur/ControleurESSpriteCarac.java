@@ -15,16 +15,13 @@ public class ControleurESSpriteCarac
 {
 	private ControleurEditeurSprites parentControleur;
 	private ESSpriteCarac pCarac;
-	private File fichierImage;
-	private File dossierProjet;
 	private SpriteTest sprite;
 	private Properties types;
 
-	public ControleurESSpriteCarac(File dossierProjet, ControleurEditeurSprites parentControleur)
+	public ControleurESSpriteCarac(File dossierProjet,
+	        ControleurEditeurSprites parentControleur)
 	{
-		this.fichierImage = null;
 		this.parentControleur = parentControleur;
-		this.dossierProjet = dossierProjet;
 		types = new Properties();
 		try
 		{
@@ -45,11 +42,9 @@ public class ControleurESSpriteCarac
 		pCarac = new ESSpriteCarac(this);
 	}
 
-	public void selectionnerSprite(SpriteTest spriteSelectionne,
-	        File fichierImage)
+	public void selectionnerSprite(SpriteTest spriteSelectionne)
 	{
 		this.sprite = spriteSelectionne;
-		this.fichierImage = fichierImage;
 		pCarac.selectionnerSprite(sprite);
 	}
 
@@ -58,7 +53,8 @@ public class ControleurESSpriteCarac
 		return this.pCarac;
 	}
 
-	public void getTypes(JComboBox cbType)
+	@SuppressWarnings("rawtypes")
+    public void getTypes(JComboBox cbType)
 	{
 		cbType.addItem("");
 		Enumeration e = types.elements();
@@ -71,101 +67,15 @@ public class ControleurESSpriteCarac
 
 	public void sauverProprietes()
 	{
-		Enumeration e = types.elements();
 		String typeSprite = sprite.getType();
 		if (!typeSprite.isEmpty())
 		{
-			String typeId = "00";
-			String typeDossierNom = "";
-			while (e.hasMoreElements())
-			{
-				String type = (String) e.nextElement();
-				String typeNom = type.substring(3);
-				if (typeSprite.equals(typeNom))
-				{
-					typeId = type.substring(0, 2);
-					typeDossierNom = type;
-				}
-			}
-
-			String dernierNumero = recupererDernierNumero(typeId);
-			sprite.setCode(typeId + dernierNumero);
-			boolean deplacement = false;
-
-			String cheminDossier =
-			        dossierProjet.getPath() + "/images" + "/" + typeDossierNom
-			                + "/";
-			// déplacement du fichier
-			try
-			{
-				deplacement =
-				        FileTools.deplacer(fichierImage, new File(cheminDossier
-				                + sprite.getFichierNomCree() + ".png"));
-				if (deplacement)
-				{
-					FileTools.saveConfig(
-					        new File(cheminDossier + sprite.getFichierNomCree()
-					                + ".sprconf"), sprite.getProprietes());
-				}
-			}
-			catch (SecurityException se)
-			{
-				se.printStackTrace();
-			}
-
-			if (deplacement)
-			{
-				System.err.println("fichier sauvegardé");
-			}
-			else
-			{
-				System.err.println("erreur lors du déplacement du fichier");
-			}
-			parentControleur.updateCategories();
+			parentControleur.sauverProprietes();
 		}
 		else
 		{
 			System.err.println("Pas de type sélectionné");
 		}
 
-	}
-
-	private String recupererDernierNumero(String categorieId)
-	{
-		File dossierCategorie =
-		        FileTools.getDirectoryBeginsWith(new File(dossierProjet.getPath() + "/images"), categorieId);
-		File[] fichiers = dossierCategorie.listFiles();
-
-		String dernierNumeroStr = "001";
-		int dernierNumero = 0;
-
-		for (File fichier : fichiers)
-		{
-			if (fichier.getName().endsWith(".png"))
-			{
-				int fichierNumero =
-				        new Integer(fichier.getName().substring(2, 5));
-				if (fichierNumero > dernierNumero)
-				{
-					dernierNumero = fichierNumero;
-				}
-			}
-		}
-		dernierNumero++;
-		// Ajout des 0
-		if (dernierNumero < 10)
-		{
-			dernierNumeroStr = "00" + dernierNumero;
-		}
-		else if (dernierNumero < 100)
-		{
-			dernierNumeroStr = "0" + dernierNumero;
-		}
-		else
-		{
-			dernierNumeroStr = "" + dernierNumero;
-		}
-
-		return dernierNumeroStr;
 	}
 }

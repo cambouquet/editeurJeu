@@ -1,7 +1,9 @@
 package com.arene.editeur.controleur;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -102,7 +104,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 				                .getPath() + "/" + type))));
 			}
 		}
-		
+
 		return categories;
 	}
 
@@ -154,18 +156,18 @@ public class ControleurEditeurSprites implements SelectionElementListener
 			                + ".*.sprconf")));
 			spriteSelectionne.setType(prop.getProperty("type", ""));
 		}
-		cheminImage +=
-		        spriteSelectionne.getFichierNomOrigine();
-		ctrlESSC.selectionnerSprite(this.spriteSelectionne, new File(
-		        cheminImage));
+		cheminImage += spriteSelectionne.getFichierOrigine().getName();
+		ctrlESSC.selectionnerSprite(this.spriteSelectionne);
 	}
 
 	public void updateCategories()
 	{
 		ArrayList<SelectionCategorie> categories = creerCategories();
-		SelectionCategorie categorieSelectionnee = new SelectionCategorie(null, null);
-		String nomCategorieSelectionnee = ctrlPS.getCategorieSelectionnee().getNom();
-		
+		SelectionCategorie categorieSelectionnee =
+		        new SelectionCategorie(null, null);
+		String nomCategorieSelectionnee =
+		        ctrlPS.getCategorieSelectionnee().getNom();
+
 		for (SelectionCategorie categorie : categories)
 		{
 			if (categorie.getNom().equalsIgnoreCase(nomCategorieSelectionnee))
@@ -173,15 +175,154 @@ public class ControleurEditeurSprites implements SelectionElementListener
 				categorieSelectionnee = categorie;
 			}
 		}
-		
+
 		ctrlPS.updateCategories(categories, categorieSelectionnee);
-		ctrlESSC.selectionnerSprite(null, null);
+		ctrlESSC.selectionnerSprite(null);
 	}
 
 	@Override
-    public void elementDeselectionne(SelectionElement element)
-    {
+	public void elementDeselectionne(SelectionElement element)
+	{
 		this.spriteSelectionne = null;
-		ctrlESSC.selectionnerSprite(null, null);
-    }
+		ctrlESSC.selectionnerSprite(null);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void sauverProprietes()
+	{
+		/**
+		 * Si l'image d'origine est directement à la racine du dossier images,
+		 * alors c'est qu'il faut créer un nouveau fichier de configuration.
+		 */
+		boolean newFile =
+		        spriteSelectionne.getFichierOrigine().getParentFile().getName()
+		                .equalsIgnoreCase("images");
+
+		/**
+		 * Si le nom d'origine de l'image est identique à celui que l'on veut
+		 * maintenant, il ne s'agit que d'un update du fichier de configuration.
+		 */
+		boolean update =
+		        spriteSelectionne.getFichierOrigine().getName()
+		                .equals(spriteSelectionne.getFichierNomCree() + ".png");
+
+		/**
+		 * Permet de savoir si la sauvegarde s'est bien déroulée.
+		 */
+		boolean sauvegardeOk = false;
+
+		String cheminDossier = dossierProjet.getPath() + "/images";
+
+		if (newFile || !update)
+		{
+			String typeSprite = spriteSelectionne.getType();
+			Properties types = new Properties();
+			try
+			{
+				File fichierConfig =
+				        new File(dossierProjet.getCanonicalPath()
+				                + "/config/types.config");
+
+				if (fichierConfig.exists())
+				{
+					types = FileTools.readConfig(fichierConfig);
+				}
+			}
+			catch (IOException e)
+			{
+				System.err
+				        .println("Erreur lors de l'accèss au chemin du dossier projet dans ControleurESSpriteCarac().");
+			}
+			Enumeration eTypes = types.elements();
+			String typeDossierId = "00";
+			String typeDossierNom = "";
+			while (eTypes.hasMoreElements())
+			{
+				String type = (String) eTypes.nextElement();
+				String typeNom = type.substring(3);
+				if (typeSprite.equals(typeNom))
+				{
+					typeDossierId = type.substring(0, 2);
+					typeDossierNom = type;
+				}
+			}
+			String dernierNumero = recupererDernierNumero(typeDossierId);
+			spriteSelectionne.setCode(typeDossierId + dernierNumero);
+
+			cheminDossier += "/" + typeDossierNom + "/";
+			// déplacement du fichier
+			sauvegardeOk =
+			        FileTools.deplacer(
+			                spriteSelectionne.getFichierOrigine(),
+			                new File(cheminDossier
+			                        + spriteSelectionne.getFichierNomCree()
+			                        + ".png"));
+		}
+		else
+		{
+			cheminDossier = spriteSelectionne.getFichierOrigine().getParent();
+		}
+
+		if (sauvegardeOk)
+		{
+			File configFile =
+			        new File(cheminDossier
+			                + spriteSelectionne.getFichierNomCree()
+			                + ".sprconf");
+			configFile.delete();
+			FileTools.saveConfig(configFile, spriteSelectionne.getProprietes());
+		}
+
+		if (sauvegardeOk)
+		{
+			System.out.println("fichier sauvegardé");
+		}
+		else
+		{
+			System.err.println("erreur lors du déplacement du fichier");
+		}
+		updateCategories();
+
+	}
+
+	private String recupererDernierNumero(String categorieId)
+	{
+		File dossierCategorie =
+		        FileTools.getDirectoryBeginsWith(
+		                new File(dossierProjet.getPath() + "/images"),
+		                categorieId);
+		File[] fichiers = dossierCategorie.listFiles();
+
+		String dernierNumeroStr = "001";
+		int dernierNumero = 0;
+
+		for (File fichier : fichiers)
+		{
+			if (fichier.getName().endsWith(".png"))
+			{
+				int fichierNumero =
+				        new Integer(fichier.getName().substring(2, 5));
+				if (fichierNumero > dernierNumero)
+				{
+					dernierNumero = fichierNumero;
+				}
+			}
+		}
+		dernierNumero++;
+		// Ajout des 0
+		if (dernierNumero < 10)
+		{
+			dernierNumeroStr = "00" + dernierNumero;
+		}
+		else if (dernierNumero < 100)
+		{
+			dernierNumeroStr = "0" + dernierNumero;
+		}
+		else
+		{
+			dernierNumeroStr = "" + dernierNumero;
+		}
+
+		return dernierNumeroStr;
+	}
 }
