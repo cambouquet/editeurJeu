@@ -209,7 +209,7 @@ public class ControleurEditeurSprites implements SelectionElementListener
 		/**
 		 * Permet de savoir si la sauvegarde s'est bien déroulée.
 		 */
-		boolean sauvegardeOk = false;
+		boolean sauvegardeOk = true;
 
 		String cheminDossier = dossierProjet.getPath() + "/images";
 
@@ -265,23 +265,34 @@ public class ControleurEditeurSprites implements SelectionElementListener
 
 		if (sauvegardeOk)
 		{
-			File configFile =
+			if (!update)
+			{
+				// récupération du fichier de configuration actuel et
+				// destruction
+				String configOriginePath =
+				        spriteSelectionne.getFichierOrigine().getPath();
+				configOriginePath =
+				        configOriginePath.substring(0,
+				                configOriginePath.lastIndexOf(".png"));
+				configOriginePath += ".sprconf";
+				File configOrigineFile = new File(configOriginePath);
+				if (configOrigineFile.exists())
+				{
+					configOrigineFile.delete();
+				}
+			}
+
+			FileTools.saveConfig(
 			        new File(cheminDossier
 			                + spriteSelectionne.getFichierNomCree()
-			                + ".sprconf");
-			configFile.delete();
-			FileTools.saveConfig(configFile, spriteSelectionne.getProprietes());
-		}
-
-		if (sauvegardeOk)
-		{
+			                + ".sprconf"), spriteSelectionne.getProprietes());
+			updateCategories();
 			System.out.println("fichier sauvegardé");
 		}
 		else
 		{
 			System.err.println("erreur lors du déplacement du fichier");
 		}
-		updateCategories();
 
 	}
 
